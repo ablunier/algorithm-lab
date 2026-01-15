@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "benchmark": "deno run src/benchmark/runner.ts"
+  }
+}
