@@ -3,6 +3,7 @@ import { asSortedArray } from "../types.ts";
 
 export const mergeSort = <T>(): SortAlgorithm<T> => ({
   name: "Merge sort",
+  bigO: "O(n log n)",
   mutates: false,
 
   sort(array, compare) {

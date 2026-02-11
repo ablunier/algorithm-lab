@@ -10,6 +10,7 @@ export type Comparator<T> = (a: T, b: T) => number;
 
 export interface SearchAlgorithm<T, A extends readonly T[]> {
   readonly name: string;
+  readonly bigO: string;
 
   search(
     array: A,
@@ -20,6 +21,7 @@ export interface SearchAlgorithm<T, A extends readonly T[]> {
 
 export interface SortAlgorithm<T> {
   readonly name: string;
+  readonly bigO: string;
   readonly mutates: boolean;
 
   sort(

@@ -3,6 +3,7 @@ import { asSortedArray } from "../types.ts";
 
 export const selectionSort = <T>(): SortAlgorithm<T> => ({
   name: "Selection sort",
+  bigO: "O(n^2)",
   mutates: false,
 
   sort(array, compare) {

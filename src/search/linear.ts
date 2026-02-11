@@ -3,6 +3,7 @@ import { asIndex } from "../types.ts";
 
 export const linearSearch = <T>(): SearchAlgorithm<T, readonly T[]> => ({
   name: "Linear search",
+  bigO: "O(n)",
 
   search(array, value, compare) {
     for (let i = 0; i < array.length; i++) {

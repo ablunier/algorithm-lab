@@ -3,6 +3,7 @@ import { asIndex } from "../types.ts";
 
 export const binarySearch = <T>(): SearchAlgorithm<T, SortedArray<T>> => ({
   name: "Binary search",
+  bigO: "O(log n)",
 
   search(array, value, compare) {
     let low = 0;

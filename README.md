@@ -1,69 +1,57 @@
-# TypeScript Algorithms Playground
+# Algorithm Lab
 
-This project is a personal playground to explore:
+A Deno + TypeScript playground for exploring algorithmic complexity, performance
+characteristics, and type-safe API design.
 
-1. algorithmic complexity
-2. performance characteristics
-3. type-safe API design in TypeScript
+## Getting started
 
-## Linear vs Binary search
+```sh
+deno task start
+```
 
-### Theoretical complexity
+An interactive CLI lets you select which algorithms to benchmark, set iteration
+counts, and view results in a live-updating table.
 
-- Linear search: O(n)
-- Binary search: O(log n) – requires sorted input
+## Big-O complexity chart
 
-### Benchmark setup
+![image](./big-o-complexity-chart.svg)
 
-- Runtime: Deno
-- Data size: 1.000.000 integers
-- Warmup runs before measurement for JIT optimization
-- `performance.now()` for timing
+## Algorithms
 
-### Observations
+### Search
 
-Binary search outperforms linear search significantly for large datasets, but
-requires sorted input, making it unsuitable for unsorted collections.
+| Algorithm     | Complexity | Notes                                         |
+| ------------- | ---------- | --------------------------------------------- |
+| Linear search | O(n)       | Works on any array                            |
+| Binary search | O(log n)   | Requires `SortedArray<T>` (enforced by types) |
+| Native search | O(n)       | Delegates to `Array.findIndex`                |
 
-This playground focuses on **understanding trade-offs**, not on
-micro-optimizations.
+### Sort
 
-## Native vs Merge vs Selection vs Insertion sort
+| Algorithm      | Complexity | Stable | Mutates |
+| -------------- | ---------- | ------ | ------- |
+| Native sort    | O(n log n) | Yes    | No*     |
+| Merge sort     | O(n log n) | Yes    | No      |
+| Insertion sort | O(n²)      | Yes    | No      |
+| Selection sort | O(n²)      | No     | No      |
 
-### Theoretical complexity
+_\*Wraps `Array.sort` (TimSort in V8) but copies the input first to avoid
+mutation._
 
-- Native sort: O(n log n) average – implementation-dependent, mutating
-- Merge sort: O(n log n) – stable, non-mutating
-- Selection sort: O(n²) – non-adaptive
-- Insertion sort: O(n²) worst case, O(n) best case
+## Benchmark setup
 
-### Benchmark setup
+- Multiple dataset sizes per category (search: 10K–1M, sort: 1K–50K).
+- JIT warmup phase before measurement.
+- Per-iteration timing via `performance.now()` with min/avg/max reporting.
+- Randomized input for sort, worst-case (last element) for search.
 
-- Runtime: Deno
-- Data size: 10.000 integers
-- Randomized input
-- Warmup runs before measurement for JIT optimization
-- `performance.now()` for timing
+## TypeScript design focus
 
-### Observations
+This project uses TypeScript as a design and modeling tool:
 
-Native sort is generally faster due to highly optimized engine implementations,
-but mutates the input array and offers fewer semantic guarantees. Merge sort
-provides predictable behavior and avoids side effects by returning a new sorted
-array, at the cost of additional memory allocations. Despite identical
-worst-case complexity between insertion an selection sort, insertion sort
-performs significantly better on small or nearly sorted datasets. This
-comparison highlights the trade-off between performance, safety, and
-predictability and the limits of Big-O notation when analyzing real-world
-performance.
-
-## TypeScript Design Focus
-
-This project also serves as a TypeScript design playground, exploring:
-
-- generic-based APIs
-- branded types for domain invariants
-- strong interface contracts
-- semantic typing beyond structural typing
-
-TypeScript is used as a design and modeling tool, not just for type safety.
+- **Branded types** — `SortedArray<T>` and `Index` encode domain invariants at
+  the type level, making illegal states unrepresentable.
+- **Generic algorithm interfaces** — `SearchAlgorithm<T, A>` and
+  `SortAlgorithm<T>` define contracts that all implementations conform to.
+- **Factory functions** — each algorithm is a factory returning an interface
+  implementation, keeping instantiation uniform.

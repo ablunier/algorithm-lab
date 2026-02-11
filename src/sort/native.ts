@@ -3,6 +3,7 @@ import { asSortedArray } from "../types.ts";
 
 export const nativeSort = <T>(): SortAlgorithm<T> => ({
   name: "Native sort",
+  bigO: "O(n log n)",
   mutates: false,
 
   sort(array, compare) {
