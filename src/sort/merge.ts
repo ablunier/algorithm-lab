@@ -1,29 +1,37 @@
-import type { Comparator, SortAlgorithm, SortedArray } from "../types.ts";
+import type { Comparator, SortAlgorithm } from "../types.ts";
+import { asSortedArray } from "../types.ts";
 
 export const mergeSort = <T>(): SortAlgorithm<T> => ({
   name: "Merge sort",
   mutates: false,
 
   sort(array, compare) {
-    if (array.length <= 1) {
-      return array as unknown as SortedArray<T>;
-    }
-
-    const middle = Math.floor(array.length / 2);
-    const left = array.slice(0, middle);
-    const right = array.slice(middle);
-
-    const sorted = merge(
-      mergeSort<T>().sort(left, compare),
-      mergeSort<T>().sort(right, compare),
-      compare
-    );
-
-    return sorted as unknown as SortedArray<T>;
-  }
+    return asSortedArray(mergeSortRecursive(array, compare));
+  },
 });
 
-function merge<T>(left: readonly T[], right: readonly T[], compare: Comparator<T>): T[] {
+function mergeSortRecursive<T>(
+  array: readonly T[],
+  compare: Comparator<T>,
+): T[] {
+  if (array.length <= 1) {
+    return [...array];
+  }
+
+  const middle = Math.floor(array.length / 2);
+
+  return merge(
+    mergeSortRecursive(array.slice(0, middle), compare),
+    mergeSortRecursive(array.slice(middle), compare),
+    compare,
+  );
+}
+
+function merge<T>(
+  left: readonly T[],
+  right: readonly T[],
+  compare: Comparator<T>,
+): T[] {
   const result: T[] = [];
 
   let i = 0;

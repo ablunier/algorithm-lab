@@ -14,7 +14,7 @@ export interface SearchAlgorithm<T, A extends readonly T[]> {
   search(
     array: A,
     value: T,
-    compare: Comparator<T>
+    compare: Comparator<T>,
   ): Index | null;
 }
 
@@ -24,7 +24,7 @@ export interface SortAlgorithm<T> {
 
   sort(
     array: readonly T[],
-    compare: Comparator<T>
+    compare: Comparator<T>,
   ): SortedArray<T>;
 }
 
@@ -36,6 +36,13 @@ export function asIndex(value: number, length: number): Index {
   return value as Index;
 }
 
-export function toSortedArray<T>(array: readonly T[], compare: Comparator<T>): SortedArray<T> {
-  return [...array].sort(compare) as unknown as SortedArray<T>;
+export function asSortedArray<T>(array: readonly T[]): SortedArray<T> {
+  return array as unknown as SortedArray<T>;
+}
+
+export function toSortedArray<T>(
+  array: readonly T[],
+  compare: Comparator<T>,
+): SortedArray<T> {
+  return asSortedArray([...array].sort(compare));
 }

@@ -1,10 +1,11 @@
-import type { SortAlgorithm, SortedArray } from "../types.ts";
+import type { SortAlgorithm } from "../types.ts";
+import { asSortedArray } from "../types.ts";
 
 export const nativeSort = <T>(): SortAlgorithm<T> => ({
   name: "Native sort",
-  mutates: true,
+  mutates: false,
 
   sort(array, compare) {
-    return [...array].sort(compare) as unknown as SortedArray<T>;
-  }
+    return asSortedArray([...array].sort(compare));
+  },
 });

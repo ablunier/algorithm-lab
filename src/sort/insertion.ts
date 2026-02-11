@@ -1,8 +1,9 @@
-import { SortAlgorithm, SortedArray } from "../types.ts";
+import type { SortAlgorithm } from "../types.ts";
+import { asSortedArray } from "../types.ts";
 
 export const insertionSort = <T>(): SortAlgorithm<T> => ({
   name: "Insertion sort",
-  mutates: true,
+  mutates: false,
 
   sort(array, compare) {
     const result = [...array];
@@ -19,7 +20,6 @@ export const insertionSort = <T>(): SortAlgorithm<T> => ({
       result[j + 1] = current;
     }
 
-    return result as unknown as SortedArray<T>;
-  }
+    return asSortedArray(result);
+  },
 });
-
