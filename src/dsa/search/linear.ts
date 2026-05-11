@@ -1,5 +1,5 @@
-import type { SearchAlgorithm } from "../types.ts";
-import { asIndex } from "../types.ts";
+import type { SearchAlgorithm } from "../../types.ts";
+import { asIndex } from "../../types.ts";
 
 export const linearSearch = <T>(): SearchAlgorithm<T, readonly T[]> => ({
   name: "Linear search",

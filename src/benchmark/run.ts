@@ -31,7 +31,7 @@ export async function* runBenchmarks(
     for (const size of sizes) {
       switch (algorithmName) {
         case "linearSearch": {
-          const { linearSearch } = await import("../search/linear.ts");
+          const { linearSearch } = await import("../dsa/search/linear.ts");
           const haystack = Array.from({ length: size }, (_, i) => i);
           const needle = size - 1;
           const search = linearSearch<number>();
@@ -46,7 +46,7 @@ export async function* runBenchmarks(
           break;
         }
         case "binarySearch": {
-          const { binarySearch } = await import("../search/binary.ts");
+          const { binarySearch } = await import("../dsa/search/binary.ts");
           const haystack = toSortedArray(
             Array.from({ length: size }, (_, i) => i),
             compareNumber,
@@ -64,7 +64,7 @@ export async function* runBenchmarks(
           break;
         }
         case "nativeSearch": {
-          const { nativeSearch } = await import("../search/native.ts");
+          const { nativeSearch } = await import("../dsa/search/native.ts");
           const haystack = Array.from({ length: size }, (_, i) => i);
           const needle = size - 1;
           const search = nativeSearch<number>();
@@ -79,7 +79,7 @@ export async function* runBenchmarks(
           break;
         }
         case "insertionSort": {
-          const { insertionSort } = await import("../sort/insertion.ts");
+          const { insertionSort } = await import("../dsa/sort/insertion.ts");
           const data = Array.from({ length: size }, () => Math.random());
           const sort = insertionSort<number>();
           yield {
@@ -93,7 +93,7 @@ export async function* runBenchmarks(
           break;
         }
         case "selectionSort": {
-          const { selectionSort } = await import("../sort/selection.ts");
+          const { selectionSort } = await import("../dsa/sort/selection.ts");
           const data = Array.from({ length: size }, () => Math.random());
           const sort = selectionSort<number>();
           yield {
@@ -107,7 +107,7 @@ export async function* runBenchmarks(
           break;
         }
         case "mergeSort": {
-          const { mergeSort } = await import("../sort/merge.ts");
+          const { mergeSort } = await import("../dsa/sort/merge.ts");
           const data = Array.from({ length: size }, () => Math.random());
           const sort = mergeSort<number>();
           yield {
@@ -121,7 +121,7 @@ export async function* runBenchmarks(
           break;
         }
         case "nativeSort": {
-          const { nativeSort } = await import("../sort/native.ts");
+          const { nativeSort } = await import("../dsa/sort/native.ts");
           const data = Array.from({ length: size }, () => Math.random());
           const sort = nativeSort<number>();
           yield {

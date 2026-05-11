@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "start": "deno run src/main.ts"
+    "start": "deno run src/main.ts",
+    "test": "deno test src/"
   },
   "imports": {
     "@cliffy/prompt": "jsr:@cliffy/prompt@^1.0.0-rc.8",

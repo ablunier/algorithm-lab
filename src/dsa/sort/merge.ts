@@ -1,5 +1,5 @@
-import type { Comparator, SortAlgorithm } from "../types.ts";
-import { asSortedArray } from "../types.ts";
+import type { Comparator, SortAlgorithm } from "../../types.ts";
+import { asSortedArray } from "../../types.ts";
 
 export const mergeSort = <T>(): SortAlgorithm<T> => ({
   name: "Merge sort",

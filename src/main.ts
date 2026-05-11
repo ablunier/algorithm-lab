@@ -62,37 +62,37 @@ const algorithmLab = new Command()
 async function resolveAlgorithmLabel(name: string): Promise<string> {
   switch (name) {
     case "linearSearch": {
-      const { linearSearch } = await import("./search/linear.ts");
+      const { linearSearch } = await import("./dsa/search/linear.ts");
       const s = linearSearch<number>();
       return `${s.name} ${s.bigO}`;
     }
     case "binarySearch": {
-      const { binarySearch } = await import("./search/binary.ts");
+      const { binarySearch } = await import("./dsa/search/binary.ts");
       const s = binarySearch<number>();
       return `${s.name} ${s.bigO}`;
     }
     case "nativeSearch": {
-      const { nativeSearch } = await import("./search/native.ts");
+      const { nativeSearch } = await import("./dsa/search/native.ts");
       const s = nativeSearch<number>();
       return `${s.name} ${s.bigO}`;
     }
     case "insertionSort": {
-      const { insertionSort } = await import("./sort/insertion.ts");
+      const { insertionSort } = await import("./dsa/sort/insertion.ts");
       const s = insertionSort<number>();
       return `${s.name} ${s.bigO}`;
     }
     case "selectionSort": {
-      const { selectionSort } = await import("./sort/selection.ts");
+      const { selectionSort } = await import("./dsa/sort/selection.ts");
       const s = selectionSort<number>();
       return `${s.name} ${s.bigO}`;
     }
     case "mergeSort": {
-      const { mergeSort } = await import("./sort/merge.ts");
+      const { mergeSort } = await import("./dsa/sort/merge.ts");
       const s = mergeSort<number>();
       return `${s.name} ${s.bigO}`;
     }
     case "nativeSort": {
-      const { nativeSort } = await import("./sort/native.ts");
+      const { nativeSort } = await import("./dsa/sort/native.ts");
       const s = nativeSort<number>();
       return `${s.name} ${s.bigO}`;
     }

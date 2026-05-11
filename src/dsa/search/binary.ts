@@ -1,5 +1,5 @@
-import type { SearchAlgorithm, SortedArray } from "../types.ts";
-import { asIndex } from "../types.ts";
+import type { SearchAlgorithm, SortedArray } from "../../types.ts";
+import { asIndex } from "../../types.ts";
 
 export const binarySearch = <T>(): SearchAlgorithm<T, SortedArray<T>> => ({
   name: "Binary search",

@@ -1,5 +1,5 @@
-import type { SortAlgorithm } from "../types.ts";
-import { asSortedArray } from "../types.ts";
+import type { SortAlgorithm } from "../../types.ts";
+import { asSortedArray } from "../../types.ts";
 
 export const selectionSort = <T>(): SortAlgorithm<T> => ({
   name: "Selection sort",
