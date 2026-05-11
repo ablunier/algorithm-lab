@@ -9,7 +9,7 @@
 
 export class IsUnique {
   // O(n²) time, O(1) space
-  static bruteForce(s: string): boolean {
+  public static bruteForce(s: string): boolean {
     const chars = [...s];
 
     for (let i = 0; i < chars.length; i++) {
@@ -24,7 +24,7 @@ export class IsUnique {
   }
 
   // O(n log n) time, O(n) space
-  static sortThenScan(s: string): boolean {
+  public static sortThenScan(s: string): boolean {
     const sorted = [...s].sort();
 
     for (let i = 0; i < sorted.length - 1; i++) {
@@ -37,7 +37,7 @@ export class IsUnique {
   }
 
   // O(n) time, O(n) space
-  static hashSet(s: string): boolean {
+  public static hashSet(s: string): boolean {
     const seen = new Set<string>();
 
     for (const char of s) {
