@@ -24,42 +24,52 @@ export class GroupAnagrams {
   }
 
   // O(n · k) time, O(n) space
-  public static hashMap(words: string[]): string[][] {
-    const map = new Map<string, string[]>();
+  public static hashMapAscii(words: string[]): string[][] {
+    const groups = new Map<string, string[]>();
 
     for (const word of words) {
-      const key = GroupAnagrams.getAnagramHash(word);
-      if (!map.has(key)) {
-        map.set(key, []);
+      const key = GroupAnagrams.getAsciiAnagramHash(word);
+
+      if (!groups.has(key)) {
+        groups.set(key, []);
       }
-      map.get(key)!.push(word);
+
+      groups.get(key)!.push(word);
     }
 
-    return Array.from(map.values());
+    return Array.from(groups.values());
   }
 
   // O(n · k log k) time, O(n) space
   public static hashMapUniversal(words: string[]): string[][] {
-    const map = new Map<string, string[]>();
+    const groups = new Map<string, string[]>();
 
     for (const word of words) {
-      const counts = new Map<string, number>();
-      for (const char of word.toLowerCase()) {
-        counts.set(char, (counts.get(char) ?? 0) + 1);
-      }
-      const key = [...counts.entries()].sort().join("|");
+      const key = GroupAnagrams.getUniversalAnagramHash(word);
 
-      if (!map.has(key)) {
-        map.set(key, []);
+      if (!groups.has(key)) {
+        groups.set(key, []);
       }
 
-      map.get(key)!.push(word);
+      groups.get(key)!.push(word);
     }
 
-    return Array.from(map.values());
+    return Array.from(groups.values());
   }
 
-  private static getAnagramHash(word: string): string {
+  private static getUniversalAnagramHash(word: string) {
+    const counts = new Map<string, number>();
+
+    for (const char of word.toLowerCase()) {
+      counts.set(char, (counts.get(char) ?? 0) + 1);
+    }
+
+    const key = [...counts.entries()].sort().join("|");
+
+    return key;
+  }
+
+  private static getAsciiAnagramHash(word: string): string {
     if ([...word].some((c) => c.charCodeAt(0) > 127)) {
       throw new Error(`Non-ASCII characters in word: "${word}"`);
     }
@@ -70,6 +80,6 @@ export class GroupAnagrams {
       letterCount[character.toLowerCase().charCodeAt(0) - "a".charCodeAt(0)]++;
     }
 
-    return letterCount.join(",");
+    return letterCount.join("|");
   }
 }
