@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { TwoSum } from "./two-sum.ts";
 
-Deno.test("twoSum", () => {
+Deno.test("two sum", () => {
   const nums: number[] = [9, 2, 5, 6];
 
   assertEquals(TwoSum.bruteForce(nums, 7), [1, 2]);

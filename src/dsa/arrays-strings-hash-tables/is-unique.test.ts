@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { IsUnique } from "./is-unique.ts";
 
-Deno.test("isUnique", () => {
+Deno.test("is unique", () => {
   assertEquals(IsUnique.bruteForce("abcde"), true);
   assertEquals(IsUnique.bruteForce("aAbBcCdDeE"), true);
   assertEquals(IsUnique.bruteForce("abcded"), false);
