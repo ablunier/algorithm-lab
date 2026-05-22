@@ -1,0 +1,47 @@
+import { Node } from "./linked-list.ts";
+
+type Primitive = string | number | bigint | boolean | symbol | null | undefined;
+
+export class RemoveDuplicates<T extends Primitive> {
+  // O(n²) time, O(1) space
+  public withoutAdditionalMemory(head: Node<T>): void {
+    let current = head;
+
+    while (current !== null && current.next !== null) {
+      let runner = current;
+
+      while (runner !== null && runner.next !== null) {
+        if (current.value === runner.next.value) {
+          runner.next = runner.next.next;
+        } else {
+          runner = runner.next;
+        }
+      }
+
+      current = current.next;
+    }
+  }
+
+  // O(n) time, O(n) space
+  public hashSet(head: Node<T>): void {
+    if (head === null) {
+      return;
+    }
+
+    const seen = new Set<T>();
+    let current = head;
+    seen.add(current.value);
+
+    while (current !== null && current.next !== null) {
+      if (seen.has(current.next.value)) {
+        current.next = current.next.next;
+      }
+
+      if (current.next !== null) {
+        seen.add(current.next.value);
+
+        current = current.next;
+      }
+    }
+  }
+}
