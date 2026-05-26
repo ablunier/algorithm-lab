@@ -1,6 +1,5 @@
 import { Node } from "./linked-list.ts";
-
-type Primitive = string | number | bigint | boolean | symbol | null | undefined;
+import { Primitive } from "./linked-list.ts";
 
 export class RemoveDuplicates<T extends Primitive> {
   // O(n²) time, O(1) space
