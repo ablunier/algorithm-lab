@@ -12,7 +12,9 @@ deno task start
 An interactive CLI lets you select which algorithms to benchmark, set iteration
 counts, and view results in a live-updating table.
 
-## Big-O complexity chart
+## Complexity notation
+
+All time and space complexities are expressed using Big O notation.
 
 ![image](./big-o-complexity-chart.svg)
 
