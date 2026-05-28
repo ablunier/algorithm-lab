@@ -1,7 +1,13 @@
-import { Node, Primitive } from "./linked-list.ts";
+import type { Primitive, VariantMeta } from "../../types.ts";
+import { Node } from "./linked-list.ts";
 
 export class NthNodeToLast<T extends Primitive> {
-  // O(n) time, O(n) space
+  static readonly variants = {
+    arrayIndex: { name: "Array index", bigO: { time: "O(n)", space: "O(n)" } },
+    twoPass: { name: "Two pass", bigO: { time: "O(n)", space: "O(1)" } },
+    runner: { name: "Runner", bigO: { time: "O(n)", space: "O(1)" } },
+  } satisfies Record<string, VariantMeta>;
+
   public arrayIndex(head: Node<T>, n: number): Node<T> | null {
     const nodes: Node<T>[] = [];
 
@@ -15,7 +21,6 @@ export class NthNodeToLast<T extends Primitive> {
     return index >= 0 ? nodes[index] : null;
   }
 
-  // O(n) time, O(1) space
   public twoPass(head: Node<T>, n: number): Node<T> | null {
     let length = 0;
     let current: Node<T> | null = head;
@@ -34,7 +39,6 @@ export class NthNodeToLast<T extends Primitive> {
     return current;
   }
 
-  // O(n) time, O(1) space
   public runner(head: Node<T>, n: number): Node<T> | null {
     let pos1: Node<T> | null = head;
     let pos2 = head;

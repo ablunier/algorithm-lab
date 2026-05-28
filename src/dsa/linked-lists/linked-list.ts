@@ -1,14 +1,3 @@
-export type Primitive =
-  | string
-  | number
-  | bigint
-  | boolean
-  | symbol
-  | null
-  | undefined;
-
-export type SortablePrimitive = string | number | bigint;
-
 export class Node<T> {
   prev: Node<T> | null = null;
   next: Node<T> | null = null;

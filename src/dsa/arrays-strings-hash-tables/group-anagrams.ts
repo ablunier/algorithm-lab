@@ -1,5 +1,21 @@
+import type { VariantMeta } from "../../types.ts";
+
 export class GroupAnagrams {
-  // O(n² · k log k) time, O(n) space
+  static readonly variants = {
+    bruteForce: {
+      name: "Brute force",
+      bigO: { time: "O(n²·k log k)", space: "O(n)" },
+    },
+    hashMapAscii: {
+      name: "Hash map (ASCII)",
+      bigO: { time: "O(n·k)", space: "O(n)" },
+    },
+    hashMapUniversal: {
+      name: "Hash map (universal)",
+      bigO: { time: "O(n·k log k)", space: "O(n)" },
+    },
+  } satisfies Record<string, VariantMeta>;
+
   public static bruteForce(words: string[]): string[][] {
     const visited = new Array(words.length).fill(false);
     const groups: string[][] = [];
@@ -23,7 +39,6 @@ export class GroupAnagrams {
     return groups;
   }
 
-  // O(n · k) time, O(n) space
   public static hashMapAscii(words: string[]): string[][] {
     const groups = new Map<string, string[]>();
 
@@ -40,7 +55,6 @@ export class GroupAnagrams {
     return Array.from(groups.values());
   }
 
-  // O(n · k log k) time, O(n) space
   public static hashMapUniversal(words: string[]): string[][] {
     const groups = new Map<string, string[]>();
 

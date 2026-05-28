@@ -1,56 +1,85 @@
 import { Command } from "@cliffy/command";
-import { Checkbox, Number } from "@cliffy/prompt";
-import { getSizesForAlgorithm, runBenchmarks } from "./benchmark/run.ts";
+import { Checkbox, Number as NumberPrompt } from "@cliffy/prompt";
+import {
+  getSizesForProblem,
+  runBenchmarks,
+  type SelectedVariant,
+} from "./benchmark/run.ts";
 import { createTableRenderer } from "./benchmark/table.ts";
+import { registry } from "./registry.ts";
 
 const algorithmLab = new Command()
   .name("algorithm-lab")
   .version("0.1.0")
   .description("Playground to explore algorithms benchmarking")
   .action(async () => {
-    const selectedAlgorithms = await Checkbox.prompt({
+    const formatCategory = (cat: string) =>
+      cat.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
+
+    const options: (ReturnType<typeof Checkbox.separator> | {
+      name: string;
+      value: string;
+    })[] = [];
+
+    let lastCategory = "";
+
+    for (const [problemIndex, problem] of registry.entries()) {
+      if (problem.category !== lastCategory) {
+        options.push(
+          Checkbox.separator(`── ${formatCategory(problem.category)} ──`),
+        );
+        lastCategory = problem.category;
+      }
+
+      options.push(Checkbox.separator(`  ${problem.name}:`));
+
+      for (const [variantIndex, variant] of problem.variants.entries()) {
+        options.push({
+          name: `    ${variant.name} ${variant.bigO.time}`,
+          value: `${problemIndex}:${variantIndex}`,
+        });
+      }
+    }
+
+    const selectedStrings = (await Checkbox.prompt({
       message: "Algorithms to benchmark",
-      options: [
-        Checkbox.separator("Search algorithms:"),
-        { name: "Native", value: "nativeSearch" },
-        { name: "Binary", value: "binarySearch" },
-        { name: "Linear", value: "linearSearch" },
-        Checkbox.separator("Sort algorithms:"),
-        { name: "Native", value: "nativeSort" },
-        { name: "Merge", value: "mergeSort" },
-        { name: "Insertion", value: "insertionSort" },
-        { name: "Selection", value: "selectionSort" },
-      ],
+      options,
       minOptions: 2,
+    })) as unknown as string[];
+
+    const selected: SelectedVariant[] = selectedStrings.map((s) => {
+      const [p, v] = s.split(":").map((n) => parseInt(n, 10));
+      return { problemIndex: p, variantIndex: v };
     });
 
-    const iterations: number = await Number.prompt({
+    const iterations: number = await NumberPrompt.prompt({
       message: "Number of iterations",
       min: 1,
     });
 
-    const groups = new Map<string, string[]>();
-    for (const algo of selectedAlgorithms) {
-      const sizes = getSizesForAlgorithm(algo);
-      const key = sizes.join(",");
-      const group = groups.get(key) ?? [];
-      group.push(algo);
-      groups.set(key, group);
+    const groups = new Map<number, SelectedVariant[]>();
+    for (const variant of selected) {
+      const group = groups.get(variant.problemIndex) ?? [];
+      group.push(variant);
+      groups.set(variant.problemIndex, group);
     }
 
-    for (const [, algorithmNames] of groups) {
-      const sizes = getSizesForAlgorithm(algorithmNames[0]);
+    for (const [problemIndex, variants] of groups) {
+      const sizes = getSizesForProblem(problemIndex);
+      const labels = variants.map(({ problemIndex: pi, variantIndex: vi }) => {
+        const v = registry[pi].variants[vi];
+        return `${v.name} ${v.bigO.time}`;
+      });
 
-      const labels: string[] = [];
-      for (const name of algorithmNames) {
-        const entry = await resolveAlgorithmLabel(name);
-        labels.push(entry);
-      }
-
-      const renderer = createTableRenderer(labels, sizes);
+      const problem = registry[problemIndex];
+      const renderer = createTableRenderer(
+        labels,
+        sizes,
+        `${formatCategory(problem.category)} / ${problem.name}`,
+      );
       renderer.render();
 
-      for await (const entry of runBenchmarks(algorithmNames, iterations)) {
+      for await (const entry of runBenchmarks(variants, iterations)) {
         renderer.update(entry);
         renderer.render();
       }
@@ -58,48 +87,6 @@ const algorithmLab = new Command()
       console.log();
     }
   });
-
-async function resolveAlgorithmLabel(name: string): Promise<string> {
-  switch (name) {
-    case "linearSearch": {
-      const { linearSearch } = await import("./dsa/search/linear.ts");
-      const s = linearSearch<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    case "binarySearch": {
-      const { binarySearch } = await import("./dsa/search/binary.ts");
-      const s = binarySearch<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    case "nativeSearch": {
-      const { nativeSearch } = await import("./dsa/search/native.ts");
-      const s = nativeSearch<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    case "insertionSort": {
-      const { insertionSort } = await import("./dsa/sort/insertion.ts");
-      const s = insertionSort<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    case "selectionSort": {
-      const { selectionSort } = await import("./dsa/sort/selection.ts");
-      const s = selectionSort<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    case "mergeSort": {
-      const { mergeSort } = await import("./dsa/sort/merge.ts");
-      const s = mergeSort<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    case "nativeSort": {
-      const { nativeSort } = await import("./dsa/sort/native.ts");
-      const s = nativeSort<number>();
-      return `${s.name} ${s.bigO}`;
-    }
-    default:
-      return name;
-  }
-}
 
 try {
   await algorithmLab.parse(Deno.args);

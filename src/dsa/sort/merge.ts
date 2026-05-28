@@ -1,52 +1,46 @@
-import type { Comparator, SortAlgorithm } from "../../types.ts";
-import { asSortedArray } from "../../types.ts";
+import type { BigO, Comparator, SortedArray } from "../../types.ts";
+import { unsafeCastSortedArray } from "../../types.ts";
 
-export const mergeSort = <T>(): SortAlgorithm<T> => ({
-  name: "Merge sort",
-  bigO: "O(n log n)",
-  mutates: false,
+export class MergeSort {
+  static readonly algorithmName = "Merge sort";
+  static readonly bigO: BigO = { time: "O(n log n)", space: "O(n)" };
 
-  sort(array, compare) {
-    return asSortedArray(mergeSortRecursive(array, compare));
-  },
-});
-
-function mergeSortRecursive<T>(
-  array: readonly T[],
-  compare: Comparator<T>,
-): T[] {
-  if (array.length <= 1) {
-    return [...array];
+  static run<T>(array: readonly T[], compare: Comparator<T>): SortedArray<T> {
+    return unsafeCastSortedArray(MergeSort.sortRecursive(array, compare));
   }
 
-  const middle = Math.floor(array.length / 2);
+  private static sortRecursive<T>(
+    array: readonly T[],
+    compare: Comparator<T>,
+  ): T[] {
+    if (array.length <= 1) return [...array];
 
-  return merge(
-    mergeSortRecursive(array.slice(0, middle), compare),
-    mergeSortRecursive(array.slice(middle), compare),
-    compare,
-  );
-}
+    const mid = Math.floor(array.length / 2);
 
-function merge<T>(
-  left: readonly T[],
-  right: readonly T[],
-  compare: Comparator<T>,
-): T[] {
-  const result: T[] = [];
+    return MergeSort.merge(
+      MergeSort.sortRecursive(array.slice(0, mid), compare),
+      MergeSort.sortRecursive(array.slice(mid), compare),
+      compare,
+    );
+  }
 
-  let i = 0;
-  let j = 0;
+  private static merge<T>(
+    left: readonly T[],
+    right: readonly T[],
+    compare: Comparator<T>,
+  ): T[] {
+    const result: T[] = [];
+    let i = 0;
+    let j = 0;
 
-  while (i < left.length && j < right.length) {
-    if (compare(left[i], right[j]) <= 0) {
-      result.push(left[i++]);
-    } else {
-      result.push(right[j++]);
+    while (i < left.length && j < right.length) {
+      if (compare(left[i], right[j]) <= 0) {
+        result.push(left[i++]);
+      } else {
+        result.push(right[j++]);
+      }
     }
-  }
 
-  return result
-    .concat(left.slice(i))
-    .concat(right.slice(j));
+    return result.concat(left.slice(i)).concat(right.slice(j));
+  }
 }

@@ -20,6 +20,7 @@ function formatResult(result: BenchmarkResult): string {
 export function createTableRenderer(
   algorithms: string[],
   sizes: number[],
+  title: string,
 ) {
   const results = new Map<string, Map<number, BenchmarkResult>>();
   let lastLineCount = 0;
@@ -61,7 +62,9 @@ export function createTableRenderer(
       .body(rows)
       .border();
 
-    const output = table.toString();
+    const bold = (s: string) => `\x1b[1m${s}\x1b[0m`;
+    const heading = `\n${bold(title)}\n${bold("─".repeat(title.length))}`;
+    const output = `${heading}\n${table.toString()}`;
     lastLineCount = output.split("\n").length;
 
     console.log(output);

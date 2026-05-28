@@ -1,8 +1,15 @@
+import type { Primitive, VariantMeta } from "../../types.ts";
 import { Node } from "./linked-list.ts";
-import { Primitive } from "./linked-list.ts";
 
 export class RemoveDuplicates<T extends Primitive> {
-  // O(n²) time, O(1) space
+  static readonly variants = {
+    withoutAdditionalMemory: {
+      name: "Without additional memory",
+      bigO: { time: "O(n²)", space: "O(1)" },
+    },
+    hashSet: { name: "Hash set", bigO: { time: "O(n)", space: "O(n)" } },
+  } satisfies Record<string, VariantMeta>;
+
   public withoutAdditionalMemory(head: Node<T>): void {
     let current = head;
 
@@ -21,7 +28,6 @@ export class RemoveDuplicates<T extends Primitive> {
     }
   }
 
-  // O(n) time, O(n) space
   public hashSet(head: Node<T>): void {
     if (head === null) {
       return;

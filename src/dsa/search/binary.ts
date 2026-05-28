@@ -1,11 +1,15 @@
-import type { SearchAlgorithm, SortedArray } from "../../types.ts";
+import type { BigO, Comparator, Index, SortedArray } from "../../types.ts";
 import { asIndex } from "../../types.ts";
 
-export const binarySearch = <T>(): SearchAlgorithm<T, SortedArray<T>> => ({
-  name: "Binary search",
-  bigO: "O(log n)",
+export class BinarySearch {
+  static readonly algorithmName = "Binary search";
+  static readonly bigO: BigO = { time: "O(log n)", space: "O(1)" };
 
-  search(array, value, compare) {
+  static run<T>(
+    array: SortedArray<T>,
+    value: T,
+    compare: Comparator<T>,
+  ): Index | null {
     let low = 0;
     let high = array.length - 1;
 
@@ -13,17 +17,11 @@ export const binarySearch = <T>(): SearchAlgorithm<T, SortedArray<T>> => ({
       const mid = Math.floor((low + high) / 2);
       const cmp = compare(array[mid], value);
 
-      if (cmp === 0) {
-        return asIndex(mid, array.length);
-      }
-
-      if (cmp < 0) {
-        low = mid + 1;
-      } else {
-        high = mid - 1;
-      }
+      if (cmp === 0) return asIndex(mid, array.length);
+      if (cmp < 0) low = mid + 1;
+      else high = mid - 1;
     }
 
     return null;
-  },
-});
+  }
+}

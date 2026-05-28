@@ -7,8 +7,18 @@
  * constraints on the input.
  */
 
+import type { VariantMeta } from "../../types.ts";
+
 export class IsUnique {
-  // O(n²) time, O(1) space
+  static readonly variants = {
+    bruteForce: { name: "Brute force", bigO: { time: "O(n²)", space: "O(1)" } },
+    sortThenScan: {
+      name: "Sort then scan",
+      bigO: { time: "O(n log n)", space: "O(n)" },
+    },
+    hashSet: { name: "Hash set", bigO: { time: "O(n)", space: "O(n)" } },
+  } satisfies Record<string, VariantMeta>;
+
   public static bruteForce(s: string): boolean {
     const chars = [...s];
 
@@ -23,7 +33,6 @@ export class IsUnique {
     return true;
   }
 
-  // O(n log n) time, O(n) space
   public static sortThenScan(s: string): boolean {
     const sorted = [...s].sort();
 
@@ -36,7 +45,6 @@ export class IsUnique {
     return true;
   }
 
-  // O(n) time, O(n) space
   public static hashSet(s: string): boolean {
     const seen = new Set<string>();
 

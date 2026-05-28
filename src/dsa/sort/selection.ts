@@ -1,14 +1,12 @@
-import type { SortAlgorithm } from "../../types.ts";
-import { asSortedArray } from "../../types.ts";
+import type { BigO, Comparator, SortedArray } from "../../types.ts";
+import { unsafeCastSortedArray } from "../../types.ts";
 
-export const selectionSort = <T>(): SortAlgorithm<T> => ({
-  name: "Selection sort",
-  bigO: "O(n^2)",
-  mutates: false,
+export class SelectionSort {
+  static readonly algorithmName = "Selection sort";
+  static readonly bigO: BigO = { time: "O(n²)", space: "O(n)" };
 
-  sort(array, compare) {
+  static run<T>(array: readonly T[], compare: Comparator<T>): SortedArray<T> {
     const result = [...array];
-
     const n = result.length;
 
     for (let i = 0; i < n - 1; i++) {
@@ -25,6 +23,6 @@ export const selectionSort = <T>(): SortAlgorithm<T> => ({
       }
     }
 
-    return asSortedArray(result);
-  },
-});
+    return unsafeCastSortedArray(result);
+  }
+}

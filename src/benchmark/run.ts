@@ -1,5 +1,5 @@
-import { toSortedArray } from "../types.ts";
-import { benchmark, type BenchmarkResult, compareNumber } from "./utils.ts";
+import { registry } from "../registry.ts";
+import { benchmark, type BenchmarkResult } from "./utils.ts";
 
 export interface BenchmarkEntry {
   algorithm: string;
@@ -7,134 +7,43 @@ export interface BenchmarkEntry {
   result: BenchmarkResult;
 }
 
-const SORT_SIZES = [1_000, 5_000, 10_000, 50_000];
-const SEARCH_SIZES = [10_000, 100_000, 500_000, 1_000_000];
+export interface SelectedVariant {
+  problemIndex: number;
+  variantIndex: number;
+}
 
-export function getSizesForAlgorithm(name: string): number[] {
-  switch (name) {
-    case "linearSearch":
-    case "binarySearch":
-    case "nativeSearch":
-      return SEARCH_SIZES;
-    default:
-      return SORT_SIZES;
-  }
+const SEARCH_SIZES = [10_000, 100_000, 500_000, 1_000_000];
+const SORT_SIZES = [1_000, 5_000, 10_000, 50_000];
+const DSA_SIZES = [100, 500, 1_000, 5_000];
+
+const CATEGORY_SIZES: Record<string, number[]> = {
+  search: SEARCH_SIZES,
+  sort: SORT_SIZES,
+  "arrays-strings-hash-tables": DSA_SIZES,
+  "linked-lists": DSA_SIZES,
+};
+
+export function getSizesForProblem(problemIndex: number): number[] {
+  const problem = registry[problemIndex];
+  return CATEGORY_SIZES[problem.category] ?? SORT_SIZES;
 }
 
 export async function* runBenchmarks(
-  selectedAlgorithms: string[],
+  selected: SelectedVariant[],
   iterations: number,
 ): AsyncGenerator<BenchmarkEntry> {
-  for (const algorithmName of selectedAlgorithms) {
-    const sizes = getSizesForAlgorithm(algorithmName);
+  for (const { problemIndex, variantIndex } of selected) {
+    const problem = registry[problemIndex];
+    const variant = problem.variants[variantIndex];
+    const sizes = getSizesForProblem(problemIndex);
 
     for (const size of sizes) {
-      switch (algorithmName) {
-        case "linearSearch": {
-          const { linearSearch } = await import("../dsa/search/linear.ts");
-          const haystack = Array.from({ length: size }, (_, i) => i);
-          const needle = size - 1;
-          const search = linearSearch<number>();
-          yield {
-            algorithm: `${search.name} ${search.bigO}`,
-            size,
-            result: benchmark(
-              () => search.search(haystack, needle, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-        case "binarySearch": {
-          const { binarySearch } = await import("../dsa/search/binary.ts");
-          const haystack = toSortedArray(
-            Array.from({ length: size }, (_, i) => i),
-            compareNumber,
-          );
-          const needle = size - 1;
-          const search = binarySearch<number>();
-          yield {
-            algorithm: `${search.name} ${search.bigO}`,
-            size,
-            result: benchmark(
-              () => search.search(haystack, needle, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-        case "nativeSearch": {
-          const { nativeSearch } = await import("../dsa/search/native.ts");
-          const haystack = Array.from({ length: size }, (_, i) => i);
-          const needle = size - 1;
-          const search = nativeSearch<number>();
-          yield {
-            algorithm: `${search.name} ${search.bigO}`,
-            size,
-            result: benchmark(
-              () => search.search(haystack, needle, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-        case "insertionSort": {
-          const { insertionSort } = await import("../dsa/sort/insertion.ts");
-          const data = Array.from({ length: size }, () => Math.random());
-          const sort = insertionSort<number>();
-          yield {
-            algorithm: `${sort.name} ${sort.bigO}`,
-            size,
-            result: benchmark(
-              () => sort.sort(data, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-        case "selectionSort": {
-          const { selectionSort } = await import("../dsa/sort/selection.ts");
-          const data = Array.from({ length: size }, () => Math.random());
-          const sort = selectionSort<number>();
-          yield {
-            algorithm: `${sort.name} ${sort.bigO}`,
-            size,
-            result: benchmark(
-              () => sort.sort(data, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-        case "mergeSort": {
-          const { mergeSort } = await import("../dsa/sort/merge.ts");
-          const data = Array.from({ length: size }, () => Math.random());
-          const sort = mergeSort<number>();
-          yield {
-            algorithm: `${sort.name} ${sort.bigO}`,
-            size,
-            result: benchmark(
-              () => sort.sort(data, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-        case "nativeSort": {
-          const { nativeSort } = await import("../dsa/sort/native.ts");
-          const data = Array.from({ length: size }, () => Math.random());
-          const sort = nativeSort<number>();
-          yield {
-            algorithm: `${sort.name} ${sort.bigO}`,
-            size,
-            result: benchmark(
-              () => sort.sort(data, compareNumber),
-              iterations,
-            ),
-          };
-          break;
-        }
-      }
+      const input = problem.generateInput(size);
+      yield {
+        algorithm: `${variant.name} ${variant.bigO.time}`,
+        size,
+        result: benchmark(() => variant.run(input), iterations),
+      };
     }
   }
 }

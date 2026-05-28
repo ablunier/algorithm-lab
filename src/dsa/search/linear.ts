@@ -1,11 +1,15 @@
-import type { SearchAlgorithm } from "../../types.ts";
+import type { BigO, Comparator, Index } from "../../types.ts";
 import { asIndex } from "../../types.ts";
 
-export const linearSearch = <T>(): SearchAlgorithm<T, readonly T[]> => ({
-  name: "Linear search",
-  bigO: "O(n)",
+export class LinearSearch {
+  static readonly algorithmName = "Linear search";
+  static readonly bigO: BigO = { time: "O(n)", space: "O(1)" };
 
-  search(array, value, compare) {
+  static run<T>(
+    array: readonly T[],
+    value: T,
+    compare: Comparator<T>,
+  ): Index | null {
     for (let i = 0; i < array.length; i++) {
       if (compare(array[i], value) === 0) {
         return asIndex(i, array.length);
@@ -13,5 +17,5 @@ export const linearSearch = <T>(): SearchAlgorithm<T, readonly T[]> => ({
     }
 
     return null;
-  },
-});
+  }
+}

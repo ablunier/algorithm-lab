@@ -1,5 +1,15 @@
+import type { VariantMeta } from "../../types.ts";
+
 export class TwoSum {
-  // O(n²) time, O(1) space
+  static readonly variants = {
+    bruteForce: { name: "Brute force", bigO: { time: "O(n²)", space: "O(1)" } },
+    hashMap: { name: "Hash map", bigO: { time: "O(n)", space: "O(n)" } },
+    twoPointers: {
+      name: "Two pointers",
+      bigO: { time: "O(n log n)", space: "O(n)" },
+    },
+  } satisfies Record<string, VariantMeta>;
+
   public static bruteForce(nums: number[], target: number): number[] | null {
     if (!this.hasEnoughElements(nums)) {
       return null;
@@ -16,7 +26,6 @@ export class TwoSum {
     return null;
   }
 
-  // O(n) time, O(n) space
   public static hashMap(nums: number[], target: number): number[] | null {
     if (!this.hasEnoughElements(nums)) {
       return null;
@@ -36,7 +45,6 @@ export class TwoSum {
     return null;
   }
 
-  // O(n) if already sorted, O(n log n) otherwise — O(1) space if already sorted, O(n) otherwise
   public static twoPointers(nums: number[], target: number): number[] | null {
     if (!this.hasEnoughElements(nums)) {
       return null;

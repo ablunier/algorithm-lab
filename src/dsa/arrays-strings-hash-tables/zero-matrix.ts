@@ -1,5 +1,15 @@
+import type { VariantMeta } from "../../types.ts";
+
 export class ZeroMatrix {
-  // O(r · c · (r + c)) time, O(1) space — sentinel avoids mid-scan corruption
+  static readonly variants = {
+    bruteForce: {
+      name: "Brute force",
+      bigO: { time: "O(r·c·(r+c))", space: "O(1)" },
+    },
+    withSets: { name: "With sets", bigO: { time: "O(r·c)", space: "O(r+c)" } },
+    inPlace: { name: "In place", bigO: { time: "O(r·c)", space: "O(1)" } },
+  } satisfies Record<string, VariantMeta>;
+
   public static bruteForce(matrix: number[][]): number[][] {
     const SENTINEL = NaN;
 
@@ -25,7 +35,6 @@ export class ZeroMatrix {
     return matrix;
   }
 
-  // O(r · c) time, O(r + c) space
   public static withSets(matrix: number[][]): number[][] {
     const zeroRows = new Set<number>();
     const zeroCols = new Set<number>();
@@ -52,7 +61,6 @@ export class ZeroMatrix {
     return matrix;
   }
 
-  // O (r · c) time, O(1) space
   public static inPlace(matrix: number[][]): number[][] {
     const hasZeroInFirstRow = this.hasZeroInFirstRow(matrix);
     const hasZeroInFirstCol = this.hasZeroInFirstCol(matrix);
