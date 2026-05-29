@@ -17,6 +17,7 @@ import { Node } from "./dsa/linked-lists/linked-list.ts";
 import { RemoveDuplicates } from "./dsa/linked-lists/remove-duplicates.ts";
 import { NthNodeToLast } from "./dsa/linked-lists/nth-node-to-last.ts";
 import { MergeTwoSorted } from "./dsa/linked-lists/merge-two-sorted.ts";
+import { AddTwoNumbers } from "./dsa/linked-lists/add-two-numbers.ts";
 
 // --- helpers ---
 
@@ -357,6 +358,47 @@ const mergeTwoSortedProblem: Problem<MergeTwoSortedInput, Node<number> | null> =
     ],
   };
 
+type AddTwoNumbersInput = { list1Values: number[]; list2Values: number[] };
+
+const addTwoNumbers = new AddTwoNumbers();
+
+const addTwoNumbersProblem: Problem<AddTwoNumbersInput, Node<number>> = {
+  name: "Add Two Numbers",
+  category: "linked-lists",
+  generateInput: (size) => {
+    const half = Math.floor(size / 2);
+    const list1Values = Array.from(
+      { length: half },
+      () => Math.floor(Math.random() * 10),
+    );
+    const list2Values = Array.from(
+      { length: size - half },
+      () => Math.floor(Math.random() * 10),
+    );
+    return { list1Values, list2Values };
+  },
+  variants: [
+    {
+      name: AddTwoNumbers.variants.byConversion.name,
+      bigO: AddTwoNumbers.variants.byConversion.bigO,
+      run: ({ list1Values, list2Values }) =>
+        addTwoNumbers.byConversion(
+          buildList(list1Values)!,
+          buildList(list2Values)!,
+        ),
+    },
+    {
+      name: AddTwoNumbers.variants.withCarry.name,
+      bigO: AddTwoNumbers.variants.withCarry.bigO,
+      run: ({ list1Values, list2Values }) =>
+        addTwoNumbers.withCarry(
+          buildList(list1Values)!,
+          buildList(list2Values)!,
+        ),
+    },
+  ],
+};
+
 // deno-lint-ignore no-explicit-any
 export const registry: Problem<any, any>[] = [
   searchProblem,
@@ -369,4 +411,5 @@ export const registry: Problem<any, any>[] = [
   removeDuplicatesProblem,
   nthNodeToLastProblem,
   mergeTwoSortedProblem,
+  addTwoNumbersProblem,
 ];
