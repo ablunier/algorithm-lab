@@ -18,6 +18,7 @@ import { RemoveDuplicates } from "./dsa/linked-lists/remove-duplicates.ts";
 import { NthNodeToLast } from "./dsa/linked-lists/nth-node-to-last.ts";
 import { MergeTwoSorted } from "./dsa/linked-lists/merge-two-sorted.ts";
 import { AddTwoNumbers } from "./dsa/linked-lists/add-two-numbers.ts";
+import { SwapNodesInPairs } from "./dsa/linked-lists/swap-nodes-in-pairs.ts";
 
 // --- helpers ---
 
@@ -399,6 +400,27 @@ const addTwoNumbersProblem: Problem<AddTwoNumbersInput, Node<number>> = {
   ],
 };
 
+const swapNodesInPairs = new SwapNodesInPairs<number>();
+
+const swapNodesInPairsProblem: Problem<number[], Node<number> | null> = {
+  name: "Swap Nodes in Pairs",
+  category: "linked-lists",
+  generateInput: (size) =>
+    Array.from({ length: size }, () => Math.floor(Math.random() * 1_000)),
+  variants: [
+    {
+      name: SwapNodesInPairs.variants.recursive.name,
+      bigO: SwapNodesInPairs.variants.recursive.bigO,
+      run: (values) => swapNodesInPairs.recursive(buildList(values)),
+    },
+    {
+      name: SwapNodesInPairs.variants.iterative.name,
+      bigO: SwapNodesInPairs.variants.iterative.bigO,
+      run: (values) => swapNodesInPairs.iterative(buildList(values)),
+    },
+  ],
+};
+
 // deno-lint-ignore no-explicit-any
 export const registry: Problem<any, any>[] = [
   searchProblem,
@@ -412,4 +434,5 @@ export const registry: Problem<any, any>[] = [
   nthNodeToLastProblem,
   mergeTwoSortedProblem,
   addTwoNumbersProblem,
+  swapNodesInPairsProblem,
 ];
