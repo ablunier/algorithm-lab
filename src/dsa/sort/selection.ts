@@ -1,9 +1,9 @@
-import type { BigO, Comparator, SortedArray } from "../../types.ts";
+import type { Comparator, SortedArray } from "../../types.ts";
 import { unsafeCastSortedArray } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class SelectionSort {
-  static readonly algorithmName = "Selection sort";
-  static readonly bigO: BigO = { time: "O(n²)", space: "O(n)" };
+  @variant({ name: "Selection sort", bigO: { time: "O(n²)", space: "O(n)" } })
 
   static run<T>(array: readonly T[], compare: Comparator<T>): SortedArray<T> {
     const result = [...array];

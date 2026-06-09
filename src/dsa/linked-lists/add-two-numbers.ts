@@ -1,18 +1,8 @@
-import { VariantMeta } from "../../types.ts";
 import { Node } from "./linked-list.ts";
+import { variant } from "../../decorators.ts";
 
 export class AddTwoNumbers {
-  static readonly variants = {
-    byConversion: {
-      name: "By conversion",
-      bigO: { time: "O(n + m)", space: "O(n + m)" },
-    },
-    withCarry: {
-      name: "With carry",
-      bigO: { time: "O(n + m)", space: "O(n + m)" },
-    },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "By conversion", bigO: { time: "O(n + m)", space: "O(n + m)" } })
   public byConversion(list1: Node<number>, list2: Node<number>): Node<number> {
     const toNumber = (node: Node<number>): number => {
       const digits: number[] = [];
@@ -43,6 +33,7 @@ export class AddTwoNumbers {
     return resultList;
   }
 
+  @variant({ name: "With carry", bigO: { time: "O(n + m)", space: "O(n + m)" } })
   public withCarry(list1: Node<number>, list2: Node<number>): Node<number> {
     const result = new Node<number>(-1);
     let current = result;

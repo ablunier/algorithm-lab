@@ -1,15 +1,8 @@
-import { VariantMeta } from "../../types.ts";
 import { Node } from "./linked-list.ts";
+import { variant } from "../../decorators.ts";
 
-/**
- * 1->2->4->6->8
- */
 export class SwapNodesInPairs<T> {
-  static readonly variants = {
-    recursive: { name: "Recursive", bigO: { time: "O(n)", space: "O(n)" } },
-    iterative: { name: "Iterative", bigO: { time: "O(n)", space: "O(1)" } },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "Recursive", bigO: { time: "O(n)", space: "O(n)" } })
   public recursive(head: Node<T> | null): Node<T> | null {
     if (head === null || head.next === null) {
       return head;
@@ -23,6 +16,7 @@ export class SwapNodesInPairs<T> {
     return head;
   }
 
+  @variant({ name: "Iterative", bigO: { time: "O(n)", space: "O(1)" } })
   public iterative(head: Node<T> | null): Node<T> | null {
     if (head === null || head.next === null) {
       return head;

@@ -1,5 +1,6 @@
-import type { Index, Problem, SortedArray } from "./types.ts";
+import type { AlgorithmVariant, Index, Problem, SortedArray, VariantMeta } from "./types.ts";
 import { toSortedArray } from "./types.ts";
+import { variantMetas } from "./decorators.ts";
 import { compareNumber } from "./benchmark/utils.ts";
 import { LinearSearch } from "./dsa/search/linear.ts";
 import { BinarySearch } from "./dsa/search/binary.ts";
@@ -21,6 +22,13 @@ import { AddTwoNumbers } from "./dsa/linked-lists/add-two-numbers.ts";
 import { SwapNodesInPairs } from "./dsa/linked-lists/swap-nodes-in-pairs.ts";
 
 // --- helpers ---
+
+function withRuns<TInput, TOutput>(
+  metas: VariantMeta[],
+  ...runs: Array<(input: TInput) => TOutput>
+): AlgorithmVariant<TInput, TOutput>[] {
+  return metas.map((meta, i) => ({ ...meta, run: runs[i]! }));
+}
 
 function buildList<T>(values: T[]): Node<T> | null {
   if (values.length === 0) return null;
@@ -56,21 +64,9 @@ const searchProblem: Problem<SearchInput, Index | null> = {
     value: size - 1,
   }),
   variants: [
-    {
-      name: LinearSearch.algorithmName,
-      bigO: LinearSearch.bigO,
-      run: ({ array, value }) => LinearSearch.run(array, value, compareNumber),
-    },
-    {
-      name: BinarySearch.algorithmName,
-      bigO: BinarySearch.bigO,
-      run: ({ array, value }) => BinarySearch.run(array, value, compareNumber),
-    },
-    {
-      name: NativeSearch.algorithmName,
-      bigO: NativeSearch.bigO,
-      run: ({ array, value }) => NativeSearch.run(array, value, compareNumber),
-    },
+    { ...variantMetas(LinearSearch)[0], run: ({ array, value }) => LinearSearch.run(array, value, compareNumber) },
+    { ...variantMetas(BinarySearch)[0], run: ({ array, value }) => BinarySearch.run(array, value, compareNumber) },
+    { ...variantMetas(NativeSearch)[0], run: ({ array, value }) => NativeSearch.run(array, value, compareNumber) },
   ],
 };
 
@@ -81,26 +77,10 @@ const sortProblem: Problem<number[], SortedArray<number>> = {
   category: "sort",
   generateInput: (size) => Array.from({ length: size }, () => Math.random()),
   variants: [
-    {
-      name: InsertionSort.algorithmName,
-      bigO: InsertionSort.bigO,
-      run: (array) => InsertionSort.run(array, compareNumber),
-    },
-    {
-      name: SelectionSort.algorithmName,
-      bigO: SelectionSort.bigO,
-      run: (array) => SelectionSort.run(array, compareNumber),
-    },
-    {
-      name: MergeSort.algorithmName,
-      bigO: MergeSort.bigO,
-      run: (array) => MergeSort.run(array, compareNumber),
-    },
-    {
-      name: NativeSort.algorithmName,
-      bigO: NativeSort.bigO,
-      run: (array) => NativeSort.run(array, compareNumber),
-    },
+    { ...variantMetas(InsertionSort)[0], run: (array) => InsertionSort.run(array, compareNumber) },
+    { ...variantMetas(SelectionSort)[0], run: (array) => SelectionSort.run(array, compareNumber) },
+    { ...variantMetas(MergeSort)[0], run: (array) => MergeSort.run(array, compareNumber) },
+    { ...variantMetas(NativeSort)[0], run: (array) => NativeSort.run(array, compareNumber) },
   ],
 };
 
@@ -121,23 +101,11 @@ const isUniqueProblem: Problem<string, boolean> = {
     }
     return chars.join("");
   },
-  variants: [
-    {
-      name: IsUnique.variants.bruteForce.name,
-      bigO: IsUnique.variants.bruteForce.bigO,
-      run: (s) => IsUnique.bruteForce(s),
-    },
-    {
-      name: IsUnique.variants.sortThenScan.name,
-      bigO: IsUnique.variants.sortThenScan.bigO,
-      run: (s) => IsUnique.sortThenScan(s),
-    },
-    {
-      name: IsUnique.variants.hashSet.name,
-      bigO: IsUnique.variants.hashSet.bigO,
-      run: (s) => IsUnique.hashSet(s),
-    },
-  ],
+  variants: withRuns(variantMetas(IsUnique),
+    (s) => IsUnique.bruteForce(s),
+    (s) => IsUnique.sortThenScan(s),
+    (s) => IsUnique.hashSet(s),
+  ),
 };
 
 type ConcatInput = { words: string[]; glue: string };
@@ -149,18 +117,10 @@ const concatProblem: Problem<ConcatInput, string> = {
     words: Array.from({ length: size }, () => randomLowercaseWord(5)),
     glue: " ",
   }),
-  variants: [
-    {
-      name: Concat.variants.naive.name,
-      bigO: Concat.variants.naive.bigO,
-      run: ({ words, glue }) => Concat.naive(words, glue),
-    },
-    {
-      name: Concat.variants.pushAndJoin.name,
-      bigO: Concat.variants.pushAndJoin.bigO,
-      run: ({ words, glue }) => Concat.pushAndJoin(words, glue),
-    },
-  ],
+  variants: withRuns(variantMetas(Concat),
+    ({ words, glue }) => Concat.naive(words, glue),
+    ({ words, glue }) => Concat.pushAndJoin(words, glue),
+  ),
 };
 
 const groupAnagramsProblem: Problem<string[], string[][]> = {
@@ -171,23 +131,11 @@ const groupAnagramsProblem: Problem<string[], string[][]> = {
       { length: size },
       () => randomLowercaseWord(5 + Math.floor(Math.random() * 4)),
     ),
-  variants: [
-    {
-      name: GroupAnagrams.variants.bruteForce.name,
-      bigO: GroupAnagrams.variants.bruteForce.bigO,
-      run: (words) => GroupAnagrams.bruteForce(words),
-    },
-    {
-      name: GroupAnagrams.variants.hashMapAscii.name,
-      bigO: GroupAnagrams.variants.hashMapAscii.bigO,
-      run: (words) => GroupAnagrams.hashMapAscii(words),
-    },
-    {
-      name: GroupAnagrams.variants.hashMapUniversal.name,
-      bigO: GroupAnagrams.variants.hashMapUniversal.bigO,
-      run: (words) => GroupAnagrams.hashMapUniversal(words),
-    },
-  ],
+  variants: withRuns(variantMetas(GroupAnagrams),
+    (words) => GroupAnagrams.bruteForce(words),
+    (words) => GroupAnagrams.hashMapAscii(words),
+    (words) => GroupAnagrams.hashMapUniversal(words),
+  ),
 };
 
 type TwoSumInput = { nums: number[]; target: number };
@@ -204,23 +152,11 @@ const twoSumProblem: Problem<TwoSumInput, number[] | null> = {
     const j = Math.floor(size * 0.7);
     return { nums, target: nums[i] + nums[j] };
   },
-  variants: [
-    {
-      name: TwoSum.variants.bruteForce.name,
-      bigO: TwoSum.variants.bruteForce.bigO,
-      run: ({ nums, target }) => TwoSum.bruteForce(nums, target),
-    },
-    {
-      name: TwoSum.variants.hashMap.name,
-      bigO: TwoSum.variants.hashMap.bigO,
-      run: ({ nums, target }) => TwoSum.hashMap(nums, target),
-    },
-    {
-      name: TwoSum.variants.twoPointers.name,
-      bigO: TwoSum.variants.twoPointers.bigO,
-      run: ({ nums, target }) => TwoSum.twoPointers(nums, target),
-    },
-  ],
+  variants: withRuns(variantMetas(TwoSum),
+    ({ nums, target }) => TwoSum.bruteForce(nums, target),
+    ({ nums, target }) => TwoSum.hashMap(nums, target),
+    ({ nums, target }) => TwoSum.twoPointers(nums, target),
+  ),
 };
 
 const zeroMatrixProblem: Problem<number[][], number[][]> = {
@@ -237,23 +173,11 @@ const zeroMatrixProblem: Problem<number[][], number[][]> = {
         ),
     );
   },
-  variants: [
-    {
-      name: ZeroMatrix.variants.bruteForce.name,
-      bigO: ZeroMatrix.variants.bruteForce.bigO,
-      run: (matrix) => ZeroMatrix.bruteForce(matrix.map((row) => [...row])),
-    },
-    {
-      name: ZeroMatrix.variants.withSets.name,
-      bigO: ZeroMatrix.variants.withSets.bigO,
-      run: (matrix) => ZeroMatrix.withSets(matrix.map((row) => [...row])),
-    },
-    {
-      name: ZeroMatrix.variants.inPlace.name,
-      bigO: ZeroMatrix.variants.inPlace.bigO,
-      run: (matrix) => ZeroMatrix.inPlace(matrix.map((row) => [...row])),
-    },
-  ],
+  variants: withRuns(variantMetas(ZeroMatrix),
+    (matrix) => ZeroMatrix.bruteForce(matrix.map((row) => [...row])),
+    (matrix) => ZeroMatrix.withSets(matrix.map((row) => [...row])),
+    (matrix) => ZeroMatrix.inPlace(matrix.map((row) => [...row])),
+  ),
 };
 
 // --- linked lists ---
@@ -268,18 +192,10 @@ const removeDuplicatesProblem: Problem<number[], void> = {
       { length: size },
       () => Math.floor(Math.random() * Math.ceil(size * 0.7)),
     ),
-  variants: [
-    {
-      name: RemoveDuplicates.variants.withoutAdditionalMemory.name,
-      bigO: RemoveDuplicates.variants.withoutAdditionalMemory.bigO,
-      run: (values) => removeDups.withoutAdditionalMemory(buildList(values)!),
-    },
-    {
-      name: RemoveDuplicates.variants.hashSet.name,
-      bigO: RemoveDuplicates.variants.hashSet.bigO,
-      run: (values) => removeDups.hashSet(buildList(values)!),
-    },
-  ],
+  variants: withRuns(variantMetas(RemoveDuplicates),
+    (values) => removeDups.withoutAdditionalMemory(buildList(values)!),
+    (values) => removeDups.hashSet(buildList(values)!),
+  ),
 };
 
 type NthNodeInput = { values: number[]; n: number };
@@ -296,23 +212,11 @@ const nthNodeToLastProblem: Problem<NthNodeInput, Node<number> | null> = {
     ),
     n: Math.max(1, Math.floor(size / 3)),
   }),
-  variants: [
-    {
-      name: NthNodeToLast.variants.arrayIndex.name,
-      bigO: NthNodeToLast.variants.arrayIndex.bigO,
-      run: ({ values, n }) => nthNodeToLast.arrayIndex(buildList(values)!, n),
-    },
-    {
-      name: NthNodeToLast.variants.twoPass.name,
-      bigO: NthNodeToLast.variants.twoPass.bigO,
-      run: ({ values, n }) => nthNodeToLast.twoPass(buildList(values)!, n),
-    },
-    {
-      name: NthNodeToLast.variants.runner.name,
-      bigO: NthNodeToLast.variants.runner.bigO,
-      run: ({ values, n }) => nthNodeToLast.runner(buildList(values)!, n),
-    },
-  ],
+  variants: withRuns(variantMetas(NthNodeToLast),
+    ({ values, n }) => nthNodeToLast.arrayIndex(buildList(values)!, n),
+    ({ values, n }) => nthNodeToLast.twoPass(buildList(values)!, n),
+    ({ values, n }) => nthNodeToLast.runner(buildList(values)!, n),
+  ),
 };
 
 type MergeTwoSortedInput = { list1Values: number[]; list2Values: number[] };
@@ -337,26 +241,10 @@ const mergeTwoSortedProblem: Problem<MergeTwoSortedInput, Node<number> | null> =
       ).sort(compareNumber);
       return { list1Values, list2Values };
     },
-    variants: [
-      {
-        name: MergeTwoSorted.variants.bruteForce.name,
-        bigO: MergeTwoSorted.variants.bruteForce.bigO,
-        run: ({ list1Values, list2Values }) =>
-          mergeTwoSorted.bruteForce(
-            buildList(list1Values),
-            buildList(list2Values),
-          ),
-      },
-      {
-        name: MergeTwoSorted.variants.twoPointer.name,
-        bigO: MergeTwoSorted.variants.twoPointer.bigO,
-        run: ({ list1Values, list2Values }) =>
-          mergeTwoSorted.twoPointer(
-            buildList(list1Values),
-            buildList(list2Values),
-          ),
-      },
-    ],
+    variants: withRuns(variantMetas(MergeTwoSorted),
+      ({ list1Values, list2Values }) => mergeTwoSorted.bruteForce(buildList(list1Values), buildList(list2Values)),
+      ({ list1Values, list2Values }) => mergeTwoSorted.twoPointer(buildList(list1Values), buildList(list2Values)),
+    ),
   };
 
 type AddTwoNumbersInput = { list1Values: number[]; list2Values: number[] };
@@ -378,26 +266,10 @@ const addTwoNumbersProblem: Problem<AddTwoNumbersInput, Node<number>> = {
     );
     return { list1Values, list2Values };
   },
-  variants: [
-    {
-      name: AddTwoNumbers.variants.byConversion.name,
-      bigO: AddTwoNumbers.variants.byConversion.bigO,
-      run: ({ list1Values, list2Values }) =>
-        addTwoNumbers.byConversion(
-          buildList(list1Values)!,
-          buildList(list2Values)!,
-        ),
-    },
-    {
-      name: AddTwoNumbers.variants.withCarry.name,
-      bigO: AddTwoNumbers.variants.withCarry.bigO,
-      run: ({ list1Values, list2Values }) =>
-        addTwoNumbers.withCarry(
-          buildList(list1Values)!,
-          buildList(list2Values)!,
-        ),
-    },
-  ],
+  variants: withRuns(variantMetas(AddTwoNumbers),
+    ({ list1Values, list2Values }) => addTwoNumbers.byConversion(buildList(list1Values)!, buildList(list2Values)!),
+    ({ list1Values, list2Values }) => addTwoNumbers.withCarry(buildList(list1Values)!, buildList(list2Values)!),
+  ),
 };
 
 const swapNodesInPairs = new SwapNodesInPairs<number>();
@@ -407,18 +279,10 @@ const swapNodesInPairsProblem: Problem<number[], Node<number> | null> = {
   category: "linked-lists",
   generateInput: (size) =>
     Array.from({ length: size }, () => Math.floor(Math.random() * 1_000)),
-  variants: [
-    {
-      name: SwapNodesInPairs.variants.recursive.name,
-      bigO: SwapNodesInPairs.variants.recursive.bigO,
-      run: (values) => swapNodesInPairs.recursive(buildList(values)),
-    },
-    {
-      name: SwapNodesInPairs.variants.iterative.name,
-      bigO: SwapNodesInPairs.variants.iterative.bigO,
-      run: (values) => swapNodesInPairs.iterative(buildList(values)),
-    },
-  ],
+  variants: withRuns(variantMetas(SwapNodesInPairs),
+    (values) => swapNodesInPairs.recursive(buildList(values)),
+    (values) => swapNodesInPairs.iterative(buildList(values)),
+  ),
 };
 
 // deno-lint-ignore no-explicit-any

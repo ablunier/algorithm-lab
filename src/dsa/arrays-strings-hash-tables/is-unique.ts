@@ -7,18 +7,10 @@
  * constraints on the input.
  */
 
-import type { VariantMeta } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class IsUnique {
-  static readonly variants = {
-    bruteForce: { name: "Brute force", bigO: { time: "O(n²)", space: "O(1)" } },
-    sortThenScan: {
-      name: "Sort then scan",
-      bigO: { time: "O(n log n)", space: "O(n)" },
-    },
-    hashSet: { name: "Hash set", bigO: { time: "O(n)", space: "O(n)" } },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "Brute force", bigO: { time: "O(n²)", space: "O(1)" } })
   public static bruteForce(s: string): boolean {
     const chars = [...s];
 
@@ -33,6 +25,7 @@ export class IsUnique {
     return true;
   }
 
+  @variant({ name: "Sort then scan", bigO: { time: "O(n log n)", space: "O(n)" } })
   public static sortThenScan(s: string): boolean {
     const sorted = [...s].sort();
 
@@ -45,6 +38,7 @@ export class IsUnique {
     return true;
   }
 
+  @variant({ name: "Hash set", bigO: { time: "O(n)", space: "O(n)" } })
   public static hashSet(s: string): boolean {
     const seen = new Set<string>();
 

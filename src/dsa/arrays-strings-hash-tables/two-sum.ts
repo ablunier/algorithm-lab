@@ -1,15 +1,7 @@
-import type { VariantMeta } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class TwoSum {
-  static readonly variants = {
-    bruteForce: { name: "Brute force", bigO: { time: "O(n²)", space: "O(1)" } },
-    hashMap: { name: "Hash map", bigO: { time: "O(n)", space: "O(n)" } },
-    twoPointers: {
-      name: "Two pointers",
-      bigO: { time: "O(n log n)", space: "O(n)" },
-    },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "Brute force", bigO: { time: "O(n²)", space: "O(1)" } })
   public static bruteForce(nums: number[], target: number): number[] | null {
     if (!this.hasEnoughElements(nums)) {
       return null;
@@ -26,6 +18,7 @@ export class TwoSum {
     return null;
   }
 
+  @variant({ name: "Hash map", bigO: { time: "O(n)", space: "O(n)" } })
   public static hashMap(nums: number[], target: number): number[] | null {
     if (!this.hasEnoughElements(nums)) {
       return null;
@@ -45,6 +38,7 @@ export class TwoSum {
     return null;
   }
 
+  @variant({ name: "Two pointers", bigO: { time: "O(n log n)", space: "O(n)" } })
   public static twoPointers(nums: number[], target: number): number[] | null {
     if (!this.hasEnoughElements(nums)) {
       return null;

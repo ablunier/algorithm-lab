@@ -5,17 +5,10 @@
  * structures, so real-world benchmarks may not show a full n² curve — but the theoretical
  * worst-case complexity remains O(n²).
  */
-import type { VariantMeta } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class Concat {
-  static readonly variants = {
-    naive: { name: "Naive", bigO: { time: "O(n²·w)", space: "O(L)" } },
-    pushAndJoin: {
-      name: "Push and join",
-      bigO: { time: "O(n+L)", space: "O(n+L)" },
-    },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "Naive", bigO: { time: "O(n²·w)", space: "O(L)" } })
   public static naive(words: string[], glue: string): string {
     let concat = "";
 
@@ -26,6 +19,7 @@ export class Concat {
     return concat.slice(0, glue.length * -1);
   }
 
+  @variant({ name: "Push and join", bigO: { time: "O(n+L)", space: "O(n+L)" } })
   public static pushAndJoin(words: string[], glue: string): string {
     const concat = [];
 

@@ -1,21 +1,7 @@
-import type { VariantMeta } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class GroupAnagrams {
-  static readonly variants = {
-    bruteForce: {
-      name: "Brute force",
-      bigO: { time: "O(n²·k log k)", space: "O(n)" },
-    },
-    hashMapAscii: {
-      name: "Hash map (ASCII)",
-      bigO: { time: "O(n·k)", space: "O(n)" },
-    },
-    hashMapUniversal: {
-      name: "Hash map (universal)",
-      bigO: { time: "O(n·k log k)", space: "O(n)" },
-    },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "Brute force", bigO: { time: "O(n²·k log k)", space: "O(n)" } })
   public static bruteForce(words: string[]): string[][] {
     const visited = new Array(words.length).fill(false);
     const groups: string[][] = [];
@@ -39,6 +25,7 @@ export class GroupAnagrams {
     return groups;
   }
 
+  @variant({ name: "Hash map (ASCII)", bigO: { time: "O(n·k)", space: "O(n)" } })
   public static hashMapAscii(words: string[]): string[][] {
     const groups = new Map<string, string[]>();
 
@@ -55,6 +42,7 @@ export class GroupAnagrams {
     return Array.from(groups.values());
   }
 
+  @variant({ name: "Hash map (universal)", bigO: { time: "O(n·k log k)", space: "O(n)" } })
   public static hashMapUniversal(words: string[]): string[][] {
     const groups = new Map<string, string[]>();
 

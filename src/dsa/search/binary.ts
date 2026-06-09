@@ -1,9 +1,9 @@
-import type { BigO, Comparator, Index, SortedArray } from "../../types.ts";
+import type { Comparator, Index, SortedArray } from "../../types.ts";
 import { asIndex } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class BinarySearch {
-  static readonly algorithmName = "Binary search";
-  static readonly bigO: BigO = { time: "O(log n)", space: "O(1)" };
+  @variant({ name: "Binary search", bigO: { time: "O(log n)", space: "O(1)" } })
 
   static run<T>(
     array: SortedArray<T>,

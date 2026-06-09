@@ -1,9 +1,9 @@
-import type { BigO, Comparator, Index } from "../../types.ts";
+import type { Comparator, Index } from "../../types.ts";
 import { asIndex } from "../../types.ts";
+import { variant } from "../../decorators.ts";
 
 export class NativeSearch {
-  static readonly algorithmName = "Native search";
-  static readonly bigO: BigO = { time: "O(n)", space: "O(1)" };
+  @variant({ name: "Native search", bigO: { time: "O(n)", space: "O(1)" } })
 
   static run<T>(
     array: readonly T[],

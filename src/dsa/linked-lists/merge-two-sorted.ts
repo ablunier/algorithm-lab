@@ -1,15 +1,9 @@
-import type { SortablePrimitive, VariantMeta } from "../../types.ts";
+import type { SortablePrimitive } from "../../types.ts";
 import { Node } from "./linked-list.ts";
+import { variant } from "../../decorators.ts";
 
 export class MergeTwoSorted<T extends SortablePrimitive> {
-  static readonly variants = {
-    bruteForce: {
-      name: "Brute force",
-      bigO: { time: "O(n log n)", space: "O(n)" },
-    },
-    twoPointer: { name: "Two pointer", bigO: { time: "O(n)", space: "O(1)" } },
-  } satisfies Record<string, VariantMeta>;
-
+  @variant({ name: "Brute force", bigO: { time: "O(n log n)", space: "O(n)" } })
   public bruteForce(list1: Node<T> | null, list2: Node<T> | null): Node<T> {
     const valuesToSort: T[] = [];
 
@@ -35,6 +29,7 @@ export class MergeTwoSorted<T extends SortablePrimitive> {
     return head;
   }
 
+  @variant({ name: "Two pointer", bigO: { time: "O(n)", space: "O(1)" } })
   public twoPointer(
     list1: Node<T> | null,
     list2: Node<T> | null,
