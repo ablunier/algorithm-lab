@@ -57,3 +57,14 @@ Deno.test("stack - push after pop maintains correct order", () => {
   assertEquals(stack.pop(), 1);
   assertEquals(stack.isEmpty(), true);
 });
+
+Deno.test("stack - size returns correct quantity", () => {
+  const stack = new Stack<number>();
+
+  assertEquals(stack.size(), 0);
+  stack.push(1);
+  stack.push(2);
+  assertEquals(stack.size(), 2);
+  stack.pop();
+  assertEquals(stack.size(), 1);
+});
