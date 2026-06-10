@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { RemoveDuplicates } from "./remove-duplicates.ts";
-import { Node } from "./linked-list.ts";
+import { Node } from "../node.ts";
 
 Deno.test("remove duplicates - without additional memory", () => {
   const removeDuplicates = new RemoveDuplicates<number>();

@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { MergeTwoSorted } from "./merge-two-sorted.ts";
-import { Node } from "./linked-list.ts";
+import { Node } from "../node.ts";
 
 Deno.test("merge two sorted lists - brute force", () => {
   const mergeTwoSorted = new MergeTwoSorted<number>();

@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { AddTwoNumbers } from "./add-two-numbers.ts";
-import { Node } from "./linked-list.ts";
+import { Node } from "../node.ts";
 
 Deno.test("add two numbers", () => {
   const addTwoNumbers = new AddTwoNumbers();

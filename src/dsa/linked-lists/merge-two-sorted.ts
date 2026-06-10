@@ -1,5 +1,5 @@
 import type { SortablePrimitive } from "../../types.ts";
-import { Node } from "./linked-list.ts";
+import { Node } from "../node.ts";
 import { variant } from "../../decorators.ts";
 
 export class MergeTwoSorted<T extends SortablePrimitive> {

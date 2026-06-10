@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { NthNodeToLast } from "./nth-node-to-last.ts";
-import { Node } from "./linked-list.ts";
+import { Node } from "../node.ts";
 
 Deno.test("nth node to last", () => {
   const nthNode = new NthNodeToLast();

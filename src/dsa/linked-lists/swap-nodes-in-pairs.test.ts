@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { SwapNodesInPairs } from "./swap-nodes-in-pairs.ts";
-import { Node } from "./linked-list.ts";
+import { Node } from "../node.ts";
 
 function buildList(): Node<number> {
   const list = new Node<number>(1);
