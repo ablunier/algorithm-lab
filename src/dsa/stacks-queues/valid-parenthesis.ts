@@ -10,10 +10,10 @@ export class ValidParenthesis {
   }
 
   // O(n) time, O(n) space
-  public isValid(string: string): boolean {
+  public isValid(input: string): boolean {
     const stack = new Stack<string>();
 
-    for (const char of string) {
+    for (const char of input) {
       if (char === "(" || char === "{" || char === "[") {
         stack.push(this.getOpposite(char));
       } else {
@@ -35,10 +35,10 @@ export class ValidParenthesis {
   }
 
   // O(n) time, O(n) space
-  public isValidHashMap(string: string): boolean {
+  public isValidHashMap(input: string): boolean {
     const stack = new Stack<string>();
 
-    for (const char of string) {
+    for (const char of input) {
       if (this.openClosePairs.has(char)) {
         stack.push(char);
       } else {
