@@ -14,7 +14,7 @@ import { Concat } from "./dsa/arrays-strings-hash-tables/concat.ts";
 import { GroupAnagrams } from "./dsa/arrays-strings-hash-tables/group-anagrams.ts";
 import { TwoSum } from "./dsa/arrays-strings-hash-tables/two-sum.ts";
 import { ZeroMatrix } from "./dsa/arrays-strings-hash-tables/zero-matrix.ts";
-import { Node } from "./dsa/linked-lists/linked-list.ts";
+import { Node } from "./dsa/node.ts";
 import { RemoveDuplicates } from "./dsa/linked-lists/remove-duplicates.ts";
 import { NthNodeToLast } from "./dsa/linked-lists/nth-node-to-last.ts";
 import { MergeTwoSorted } from "./dsa/linked-lists/merge-two-sorted.ts";
