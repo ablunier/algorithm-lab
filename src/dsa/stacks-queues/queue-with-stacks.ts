@@ -1,14 +1,10 @@
 import { Stack } from "./stack.ts";
-import { variant } from "../../decorators.ts";
 
 export class QueueWithStacks<T> {
   private firstStack = new Stack<T>();
   private secondStack = new Stack<T>();
 
-  @variant({
-    name: "Queue with two Stacks - add",
-    bigO: { time: "O(1)", space: "O(n)" },
-  })
+  // O(1) time, O(n) space
   public add(value: T): void {
     this.firstStack.push(value);
   }
@@ -18,10 +14,7 @@ export class QueueWithStacks<T> {
     return this.secondStack.peek();
   }
 
-  @variant({
-    name: "Queue with two Stacks - remove",
-    bigO: { time: "O(n)", space: "O(n)" },
-  })
+  // O(n) time, O(n) space
   public remove(): T {
     this.shiftStacks();
     return this.secondStack.pop();
