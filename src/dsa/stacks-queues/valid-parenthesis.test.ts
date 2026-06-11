@@ -7,8 +7,10 @@ Deno.test("valid parenthesis", () => {
   assert(validParenthesis.isValid("([]){}"));
   assertFalse(validParenthesis.isValid("({)}"));
   assertFalse(validParenthesis.isValid("}(){"));
+  assertFalse(validParenthesis.isValid("("));
 
   assert(validParenthesis.isValidHashMap("([]){}"));
   assertFalse(validParenthesis.isValidHashMap("({)}"));
   assertFalse(validParenthesis.isValidHashMap("}(){"));
+  assertFalse(validParenthesis.isValidHashMap("("));
 });

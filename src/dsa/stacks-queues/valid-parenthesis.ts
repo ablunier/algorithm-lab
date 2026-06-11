@@ -23,7 +23,7 @@ export class ValidParenthesis {
       }
     }
 
-    return true;
+    return stack.isEmpty();
   }
 
   private getOpposite(char: string): string {
@@ -48,6 +48,6 @@ export class ValidParenthesis {
       }
     }
 
-    return true;
+    return stack.isEmpty();
   }
 }
