@@ -4,7 +4,6 @@ import { variant } from "../../decorators.ts";
 
 export class BinarySearch {
   @variant({ name: "Binary search", bigO: { time: "O(log n)", space: "O(1)" } })
-
   static run<T>(
     array: SortedArray<T>,
     value: T,

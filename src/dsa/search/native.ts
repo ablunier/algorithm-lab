@@ -4,7 +4,6 @@ import { variant } from "../../decorators.ts";
 
 export class NativeSearch {
   @variant({ name: "Native search", bigO: { time: "O(n)", space: "O(1)" } })
-
   static run<T>(
     array: readonly T[],
     value: T,
