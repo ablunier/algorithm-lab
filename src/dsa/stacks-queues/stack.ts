@@ -1,7 +1,7 @@
 import { Node } from "../node.ts";
 
 export class Stack<T> {
-  private top: Node<T> | null = null;
+  protected top: Node<T> | null = null;
 
   public push(value: T) {
     const newTop = new Node<T>(value);
