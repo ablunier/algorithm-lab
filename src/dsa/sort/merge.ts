@@ -4,7 +4,6 @@ import { variant } from "../../decorators.ts";
 
 export class MergeSort {
   @variant({ name: "Merge sort", bigO: { time: "O(n log n)", space: "O(n)" } })
-
   static run<T>(array: readonly T[], compare: Comparator<T>): SortedArray<T> {
     return unsafeCastSortedArray(MergeSort.sortRecursive(array, compare));
   }

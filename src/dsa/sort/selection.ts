@@ -4,7 +4,6 @@ import { variant } from "../../decorators.ts";
 
 export class SelectionSort {
   @variant({ name: "Selection sort", bigO: { time: "O(n²)", space: "O(n)" } })
-
   static run<T>(array: readonly T[], compare: Comparator<T>): SortedArray<T> {
     const result = [...array];
     const n = result.length;

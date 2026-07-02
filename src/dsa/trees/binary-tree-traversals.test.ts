@@ -8,7 +8,7 @@ import { BinaryTreeTraversals } from "./binary-tree-traversals.ts";
  *    / \   \
  *   4   5   6
  *  /   /
- * 7    8
+ * 7   8
  */
 Deno.test("binary tree traversals", () => {
   const root = new Node<number>(1);
