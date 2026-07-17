@@ -1,13 +1,13 @@
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 import { variant } from "../../decorators.ts";
 
 export class AddTwoNumbers {
   @variant({ name: "By conversion", bigO: { time: "O(n + m)", space: "O(n + m)" } })
-  public byConversion(list1: Node<number>, list2: Node<number>): Node<number> {
-    const toNumber = (node: Node<number>): number => {
+  public byConversion(list1: ListNode<number>, list2: ListNode<number>): ListNode<number> {
+    const toNumber = (node: ListNode<number>): number => {
       const digits: number[] = [];
 
-      let current: Node<number> | null = node;
+      let current: ListNode<number> | null = node;
 
       while (current !== null) {
         digits.push(current.value);
@@ -22,11 +22,11 @@ export class AddTwoNumbers {
       Number,
     );
 
-    const resultList = new Node<number>(Number(resultValues.pop()));
+    const resultList = new ListNode<number>(Number(resultValues.pop()));
 
-    let current: Node<number> | null = resultList;
+    let current: ListNode<number> | null = resultList;
     for (const digit of resultValues.reverse()) {
-      current.next = new Node<number>(Number(digit));
+      current.next = new ListNode<number>(Number(digit));
       current = current.next;
     }
 
@@ -34,15 +34,15 @@ export class AddTwoNumbers {
   }
 
   @variant({ name: "With carry", bigO: { time: "O(n + m)", space: "O(n + m)" } })
-  public withCarry(list1: Node<number>, list2: Node<number>): Node<number> {
-    const result = new Node<number>(-1);
+  public withCarry(list1: ListNode<number>, list2: ListNode<number>): ListNode<number> {
+    const result = new ListNode<number>(-1);
     let current = result;
     let carry = 0;
-    let node1: Node<number> | null = list1;
-    let node2: Node<number> | null = list2;
+    let node1: ListNode<number> | null = list1;
+    let node2: ListNode<number> | null = list2;
 
     while (node1 !== null || node2 !== null) {
-      current.next = new Node<number>(-1);
+      current.next = new ListNode<number>(-1);
       current = current.next;
       let digit = carry;
 
@@ -63,7 +63,7 @@ export class AddTwoNumbers {
     }
 
     if (carry > 0) {
-      current.next = new Node<number>(carry);
+      current.next = new ListNode<number>(carry);
     }
 
     return result.next!;

@@ -1,9 +1,9 @@
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 import { variant } from "../../decorators.ts";
 
 export class SwapNodesInPairs<T> {
   @variant({ name: "Recursive", bigO: { time: "O(n)", space: "O(n)" } })
-  public recursive(head: Node<T> | null): Node<T> | null {
+  public recursive(head: ListNode<T> | null): ListNode<T> | null {
     if (head === null || head.next === null) {
       return head;
     }
@@ -17,12 +17,12 @@ export class SwapNodesInPairs<T> {
   }
 
   @variant({ name: "Iterative", bigO: { time: "O(n)", space: "O(1)" } })
-  public iterative(head: Node<T> | null): Node<T> | null {
+  public iterative(head: ListNode<T> | null): ListNode<T> | null {
     if (head === null || head.next === null) {
       return head;
     }
 
-    const dummy = new Node<T>(null!);
+    const dummy = new ListNode<T>(null!);
     dummy.next = head;
     let prev = dummy;
     let first = prev.next;

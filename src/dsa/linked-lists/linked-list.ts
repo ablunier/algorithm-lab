@@ -1,7 +1,7 @@
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 
 abstract class BaseLinkedList<T> {
-  head: Node<T> | null = null;
+  head: ListNode<T> | null = null;
 
   public dump(): string {
     const parts: string[] = [];
@@ -22,7 +22,7 @@ abstract class BaseLinkedList<T> {
 export class SingleLinkedList<T> extends BaseLinkedList<T> {
   public appendToTail(value: T): void {
     if (this.head === null) {
-      this.head = new Node(value);
+      this.head = new ListNode(value);
       return;
     }
 
@@ -31,7 +31,7 @@ export class SingleLinkedList<T> extends BaseLinkedList<T> {
       current = current.next;
     }
 
-    current.next = new Node(value);
+    current.next = new ListNode(value);
   }
 
   public deleteNode(value: T): void {
@@ -57,10 +57,10 @@ export class SingleLinkedList<T> extends BaseLinkedList<T> {
 }
 
 export class DoublyLinkedList<T> extends BaseLinkedList<T> {
-  tail: Node<T> | null = null;
+  tail: ListNode<T> | null = null;
 
   public appendToTail(value: T): void {
-    const node = new Node(value);
+    const node = new ListNode(value);
 
     if (this.tail === null) {
       this.head = node;
@@ -74,7 +74,7 @@ export class DoublyLinkedList<T> extends BaseLinkedList<T> {
   }
 
   public prependToHead(value: T): void {
-    const node = new Node(value);
+    const node = new ListNode(value);
 
     if (this.head === null) {
       this.head = node;

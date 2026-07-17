@@ -1,10 +1,10 @@
 import type { Primitive } from "../../types.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 import { variant } from "../../decorators.ts";
 
 export class RemoveDuplicates<T extends Primitive> {
   @variant({ name: "Without additional memory", bigO: { time: "O(n²)", space: "O(1)" } })
-  public withoutAdditionalMemory(head: Node<T>): void {
+  public withoutAdditionalMemory(head: ListNode<T>): void {
     let current = head;
 
     while (current !== null && current.next !== null) {
@@ -23,7 +23,7 @@ export class RemoveDuplicates<T extends Primitive> {
   }
 
   @variant({ name: "Hash set", bigO: { time: "O(n)", space: "O(n)" } })
-  public hashSet(head: Node<T>): void {
+  public hashSet(head: ListNode<T>): void {
     if (head === null) {
       return;
     }

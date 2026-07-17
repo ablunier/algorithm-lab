@@ -1,7 +1,7 @@
-import { Node } from "./node.ts";
+import { TreeNode } from "./node.ts";
 
 export class BinaryTreeTraversals<T> {
-  public inOrderTraversal(node: Node<T> | null): void {
+  public inOrderTraversal(node: TreeNode<T> | null): void {
     if (node !== null) {
       this.inOrderTraversal(node.left);
       console.log(node.value);
@@ -9,7 +9,7 @@ export class BinaryTreeTraversals<T> {
     }
   }
 
-  public preOrderTraversal(node: Node<T> | null): void {
+  public preOrderTraversal(node: TreeNode<T> | null): void {
     if (node !== null) {
       console.log(node.value);
       this.preOrderTraversal(node.left);
@@ -17,7 +17,7 @@ export class BinaryTreeTraversals<T> {
     }
   }
 
-  public postOrderTraversal(node: Node<T> | null): void {
+  public postOrderTraversal(node: TreeNode<T> | null): void {
     if (node !== null) {
       this.postOrderTraversal(node.left);
       this.postOrderTraversal(node.right);

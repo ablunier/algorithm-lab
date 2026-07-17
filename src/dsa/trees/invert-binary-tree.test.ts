@@ -1,15 +1,15 @@
 import { assertEquals } from "@std/assert";
 import { InvertBinaryTree } from "./invert-binary-tree.ts";
-import { Node } from "./node.ts";
+import { TreeNode } from "./node.ts";
 
 Deno.test("invert binary tree — recursive", () => {
-  const root = new Node<number>(4);
-  root.left = new Node<number>(2);
-  root.right = new Node<number>(7);
-  root.left.left = new Node<number>(1);
-  root.left.right = new Node<number>(3);
-  root.right.left = new Node<number>(6);
-  root.right.right = new Node<number>(9);
+  const root = new TreeNode<number>(4);
+  root.left = new TreeNode<number>(2);
+  root.right = new TreeNode<number>(7);
+  root.left.left = new TreeNode<number>(1);
+  root.left.right = new TreeNode<number>(3);
+  root.right.left = new TreeNode<number>(6);
+  root.right.right = new TreeNode<number>(9);
 
   const invertBinaryTree = new InvertBinaryTree<number>();
 
@@ -25,13 +25,13 @@ Deno.test("invert binary tree — recursive", () => {
 });
 
 Deno.test("invert binary tree — iterative (BFS)", () => {
-  const root = new Node<number>(4);
-  root.left = new Node<number>(2);
-  root.right = new Node<number>(7);
-  root.left.left = new Node<number>(1);
-  root.left.right = new Node<number>(3);
-  root.right.left = new Node<number>(6);
-  root.right.right = new Node<number>(9);
+  const root = new TreeNode<number>(4);
+  root.left = new TreeNode<number>(2);
+  root.right = new TreeNode<number>(7);
+  root.left.left = new TreeNode<number>(1);
+  root.left.right = new TreeNode<number>(3);
+  root.right.left = new TreeNode<number>(6);
+  root.right.right = new TreeNode<number>(9);
 
   const invertBinaryTree = new InvertBinaryTree<number>();
 

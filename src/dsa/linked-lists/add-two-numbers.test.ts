@@ -1,18 +1,18 @@
 import { assertEquals } from "@std/assert";
 import { AddTwoNumbers } from "./add-two-numbers.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 
 Deno.test("add two numbers", () => {
   const addTwoNumbers = new AddTwoNumbers();
 
-  const list1 = new Node<number>(1);
-  list1.next = new Node<number>(2);
-  list1.next.next = new Node<number>(4);
-  list1.next.next.next = new Node<number>(6);
+  const list1 = new ListNode<number>(1);
+  list1.next = new ListNode<number>(2);
+  list1.next.next = new ListNode<number>(4);
+  list1.next.next.next = new ListNode<number>(6);
 
-  const list2 = new Node<number>(5);
-  list2.next = new Node<number>(2);
-  list2.next.next = new Node<number>(8);
+  const list2 = new ListNode<number>(5);
+  list2.next = new ListNode<number>(2);
+  list2.next.next = new ListNode<number>(8);
 
   const byConversionResult = addTwoNumbers.byConversion(list1, list2);
 

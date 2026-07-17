@@ -1,16 +1,16 @@
 import { assertEquals } from "@std/assert";
 import { RemoveDuplicates } from "./remove-duplicates.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 
 Deno.test("remove duplicates - without additional memory", () => {
   const removeDuplicates = new RemoveDuplicates<number>();
 
-  const head = new Node<number>(1);
-  head.next = new Node<number>(2);
-  head.next.next = new Node<number>(3);
-  head.next.next.next = new Node<number>(3);
-  head.next.next.next.next = new Node<number>(4);
-  head.next.next.next.next.next = new Node<number>(1);
+  const head = new ListNode<number>(1);
+  head.next = new ListNode<number>(2);
+  head.next.next = new ListNode<number>(3);
+  head.next.next.next = new ListNode<number>(3);
+  head.next.next.next.next = new ListNode<number>(4);
+  head.next.next.next.next.next = new ListNode<number>(1);
 
   removeDuplicates.withoutAdditionalMemory(head);
 
@@ -24,12 +24,12 @@ Deno.test("remove duplicates - without additional memory", () => {
 Deno.test("remove duplicates - hash set", () => {
   const removeDuplicates = new RemoveDuplicates<number>();
 
-  const head = new Node<number>(1);
-  head.next = new Node<number>(2);
-  head.next.next = new Node<number>(3);
-  head.next.next.next = new Node<number>(3);
-  head.next.next.next.next = new Node<number>(4);
-  head.next.next.next.next.next = new Node<number>(1);
+  const head = new ListNode<number>(1);
+  head.next = new ListNode<number>(2);
+  head.next.next = new ListNode<number>(3);
+  head.next.next.next = new ListNode<number>(3);
+  head.next.next.next.next = new ListNode<number>(4);
+  head.next.next.next.next.next = new ListNode<number>(1);
 
   removeDuplicates.hashSet(head);
 

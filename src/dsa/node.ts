@@ -1,6 +1,6 @@
-export class Node<T> {
-  prev: Node<T> | null = null;
-  next: Node<T> | null = null;
+export class ListNode<T> {
+  prev: ListNode<T> | null = null;
+  next: ListNode<T> | null = null;
 
   constructor(public value: T) {}
 }

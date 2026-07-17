@@ -1,13 +1,13 @@
 import type { Primitive } from "../../types.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 import { variant } from "../../decorators.ts";
 
 export class NthNodeToLast<T extends Primitive> {
   @variant({ name: "Array index", bigO: { time: "O(n)", space: "O(n)" } })
-  public arrayIndex(head: Node<T>, n: number): Node<T> | null {
-    const nodes: Node<T>[] = [];
+  public arrayIndex(head: ListNode<T>, n: number): ListNode<T> | null {
+    const nodes: ListNode<T>[] = [];
 
-    let current: Node<T> | null = head;
+    let current: ListNode<T> | null = head;
     while (current !== null) {
       nodes.push(current);
       current = current.next;
@@ -18,9 +18,9 @@ export class NthNodeToLast<T extends Primitive> {
   }
 
   @variant({ name: "Two pass", bigO: { time: "O(n)", space: "O(1)" } })
-  public twoPass(head: Node<T>, n: number): Node<T> | null {
+  public twoPass(head: ListNode<T>, n: number): ListNode<T> | null {
     let length = 0;
-    let current: Node<T> | null = head;
+    let current: ListNode<T> | null = head;
     while (current !== null) {
       length++;
       current = current.next;
@@ -37,8 +37,8 @@ export class NthNodeToLast<T extends Primitive> {
   }
 
   @variant({ name: "Runner", bigO: { time: "O(n)", space: "O(1)" } })
-  public runner(head: Node<T>, n: number): Node<T> | null {
-    let pos1: Node<T> | null = head;
+  public runner(head: ListNode<T>, n: number): ListNode<T> | null {
+    let pos1: ListNode<T> | null = head;
     let pos2 = head;
 
     for (let i = 0; i < n; i++) {

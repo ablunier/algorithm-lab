@@ -1,16 +1,16 @@
 import { SortablePrimitive } from "../../types.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 import { Stack } from "./stack.ts";
 
 // O(1) time for push, pop and min; O(n) space
 export class StackMin<T extends SortablePrimitive> extends Stack<T> {
-  private minNode: Node<T> | null = null;
+  private minNode: ListNode<T> | null = null;
 
   public override push(value: T) {
     super.push(value);
 
     if (this.minNode === null || value < this.minNode.value) {
-      const newMin = new Node<T>(value);
+      const newMin = new ListNode<T>(value);
       newMin.next = this.minNode;
       this.minNode = newMin;
     }

@@ -1,18 +1,18 @@
 import { assertEquals } from "@std/assert";
 import { SwapNodesInPairs } from "./swap-nodes-in-pairs.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 
-function buildList(): Node<number> {
-  const list = new Node<number>(1);
-  list.next = new Node<number>(2);
-  list.next.next = new Node<number>(4);
-  list.next.next.next = new Node<number>(6);
-  list.next.next.next.next = new Node<number>(8);
+function buildList(): ListNode<number> {
+  const list = new ListNode<number>(1);
+  list.next = new ListNode<number>(2);
+  list.next.next = new ListNode<number>(4);
+  list.next.next.next = new ListNode<number>(6);
+  list.next.next.next.next = new ListNode<number>(8);
 
   return list;
 }
 
-function assertSwapped(result: Node<number> | null) {
+function assertSwapped(result: ListNode<number> | null) {
   assertEquals(result?.value, 2);
   assertEquals(result?.next?.value, 1);
   assertEquals(result?.next?.next?.value, 6);

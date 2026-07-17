@@ -1,10 +1,10 @@
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 
 export class Stack<T> {
-  protected top: Node<T> | null = null;
+  protected top: ListNode<T> | null = null;
 
   public push(value: T) {
-    const newTop = new Node<T>(value);
+    const newTop = new ListNode<T>(value);
     newTop.next = this.top;
     this.top = newTop;
   }

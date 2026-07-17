@@ -1,11 +1,11 @@
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 
 export class Queue<T> {
-  private first: Node<T> | null = null;
-  private last: Node<T> | null = null;
+  private first: ListNode<T> | null = null;
+  private last: ListNode<T> | null = null;
 
   public add(value: T) {
-    const newLast = new Node<T>(value);
+    const newLast = new ListNode<T>(value);
     if (this.last !== null) {
       this.last.next = newLast;
     }

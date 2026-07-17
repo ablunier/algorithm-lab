@@ -1,9 +1,9 @@
 import { variant } from "../../decorators.ts";
-import { Node } from "./node.ts";
+import { TreeNode } from "./node.ts";
 
 export class InvertBinaryTree<T> {
   @variant({ name: "Recursive", bigO: { time: "O(n)", space: "O(h)" } })
-  public invertTree(root: Node<T> | null) {
+  public invertTree(root: TreeNode<T> | null) {
     if (root === null) {
       return null;
     }
@@ -16,8 +16,8 @@ export class InvertBinaryTree<T> {
   }
 
   @variant({ name: "Iterative (BFS)", bigO: { time: "O(n)", space: "O(n)" } })
-  public invertTreeIterative(root: Node<T> | null) {
-    const queue: Node<T>[] = [];
+  public invertTreeIterative(root: TreeNode<T> | null) {
+    const queue: TreeNode<T>[] = [];
     if (root !== null) queue.push(root);
 
     while (queue.length > 0) {

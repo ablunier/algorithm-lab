@@ -1,6 +1,6 @@
-export class Node<T> {
-  left: Node<T> | null = null;
-  right: Node<T> | null = null;
+export class TreeNode<T> {
+  left: TreeNode<T> | null = null;
+  right: TreeNode<T> | null = null;
 
   constructor(public value: T) {}
 }

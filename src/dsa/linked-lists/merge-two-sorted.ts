@@ -1,10 +1,10 @@
 import type { SortablePrimitive } from "../../types.ts";
-import { Node } from "../node.ts";
+import { ListNode } from "../node.ts";
 import { variant } from "../../decorators.ts";
 
 export class MergeTwoSorted<T extends SortablePrimitive> {
   @variant({ name: "Brute force", bigO: { time: "O(n log n)", space: "O(n)" } })
-  public bruteForce(list1: Node<T> | null, list2: Node<T> | null): Node<T> {
+  public bruteForce(list1: ListNode<T> | null, list2: ListNode<T> | null): ListNode<T> {
     const valuesToSort: T[] = [];
 
     while (list1 !== null) {
@@ -18,11 +18,11 @@ export class MergeTwoSorted<T extends SortablePrimitive> {
 
     valuesToSort.sort();
 
-    const head = new Node<T>(valuesToSort.shift() as T);
+    const head = new ListNode<T>(valuesToSort.shift() as T);
 
     let current = head;
     for (const value of valuesToSort) {
-      current.next = new Node<T>(value);
+      current.next = new ListNode<T>(value);
       current = current.next;
     }
 
@@ -31,10 +31,10 @@ export class MergeTwoSorted<T extends SortablePrimitive> {
 
   @variant({ name: "Two pointer", bigO: { time: "O(n)", space: "O(1)" } })
   public twoPointer(
-    list1: Node<T> | null,
-    list2: Node<T> | null,
-  ): Node<T> | null {
-    const dummy = new Node<T>(null as unknown as T);
+    list1: ListNode<T> | null,
+    list2: ListNode<T> | null,
+  ): ListNode<T> | null {
+    const dummy = new ListNode<T>(null as unknown as T);
 
     let current = dummy;
     while (list1 !== null && list2 !== null) {
@@ -59,8 +59,8 @@ export class MergeTwoSorted<T extends SortablePrimitive> {
   }
 
   private appendToList(
-    current: Node<T>,
-    listToAppend: Node<T> | null,
+    current: ListNode<T>,
+    listToAppend: ListNode<T> | null,
   ): void {
     while (listToAppend !== null) {
       current.next = listToAppend;

@@ -1,4 +1,4 @@
-import { Node } from "./node.ts";
+import { TreeNode } from "./node.ts";
 import { BinaryTreeTraversals } from "./binary-tree-traversals.ts";
 
 /**
@@ -11,18 +11,18 @@ import { BinaryTreeTraversals } from "./binary-tree-traversals.ts";
  * 7   8
  */
 Deno.test("binary tree traversals", () => {
-  const root = new Node<number>(1);
-  root.left = new Node<number>(2);
-  root.right = new Node<number>(3);
+  const root = new TreeNode<number>(1);
+  root.left = new TreeNode<number>(2);
+  root.right = new TreeNode<number>(3);
 
-  root.left.left = new Node<number>(4);
-  root.left.right = new Node<number>(5);
+  root.left.left = new TreeNode<number>(4);
+  root.left.right = new TreeNode<number>(5);
 
-  root.right.right = new Node<number>(6);
+  root.right.right = new TreeNode<number>(6);
 
-  root.left.left.left = new Node<number>(7);
+  root.left.left.left = new TreeNode<number>(7);
 
-  root.left.right.left = new Node<number>(8);
+  root.left.right.left = new TreeNode<number>(8);
 
   const traversals = new BinaryTreeTraversals<number>();
 
