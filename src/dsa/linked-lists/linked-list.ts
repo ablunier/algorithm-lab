@@ -3,6 +3,23 @@ import { ListNode } from "../node.ts";
 abstract class BaseLinkedList<T> {
   head: ListNode<T> | null = null;
 
+  public [Symbol.iterator](): Iterator<T> {
+    let current = this.head;
+
+    return {
+      next(): IteratorResult<T> {
+        if (current === null) {
+          return { done: true, value: undefined };
+        }
+
+        const value = current.value;
+        current = current.next;
+
+        return { done: false, value };
+      },
+    };
+  }
+
   public dump(): string {
     const parts: string[] = [];
 
